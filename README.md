@@ -1,5 +1,7 @@
 # RENU 鞋包精緻護理 — 形象網站
 
+> 🌐 **線上 Demo：** https://washshoes.vercel.app　·　每次推送到 `main` 會自動部署到 Vercel。
+
 質感深色奢華風的鞋包護理品牌形象網站，以 **Next.js 15（App Router）+ TypeScript + Tailwind CSS v4** 打造，支援 **中／英雙語**，並內建完整的 SEO 基礎建設。
 
 ---
