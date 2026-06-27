@@ -105,8 +105,14 @@ export default async function LocaleLayout({
     <html
       lang={htmlLang[locale]}
       className={`${inter.variable} ${cormorant.variable} ${notoSans.variable} ${notoSerif.variable}`}
+      suppressHydrationWarning
     >
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t='dark';}document.documentElement.classList.add(t);}catch(e){}})();`,
+          }}
+        />
         <Header dict={dict} locale={locale} />
         <main id="main">{children}</main>
         <Footer dict={dict} locale={locale} />
