@@ -1,0 +1,15 @@
+rules_version = '2';
+
+// RENU CMS — Cloud Storage security rules.
+//
+// Case photos and OG images are part of a public marketing site, so reads are
+// public. Uploads/deletes happen through the Firebase Admin SDK on the server
+// (which bypasses these rules), so no client write is allowed.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
