@@ -133,31 +133,40 @@ export function UsersManager({
 
       {/* List */}
       <div className="card overflow-x-auto">
-        <table className="min-w-[640px] text-left text-sm">
+        <table className="w-full min-w-[760px] table-fixed border-collapse text-left text-sm">
+          <colgroup>
+            <col className="w-72" />
+            <col className="w-44" />
+            <col className="w-28" />
+            <col className="w-36" />
+            <col />
+          </colgroup>
           <thead>
             <tr className="border-b border-line text-xs uppercase tracking-[0.12em] text-faint">
               <th className="px-5 py-3 font-medium">帳號</th>
               <th className="px-4 py-3 font-medium">角色</th>
               <th className="px-4 py-3 font-medium">狀態</th>
               <th className="px-4 py-3 font-medium">建立日期</th>
-              <th className="px-5 py-3 font-medium">操作</th>
+              <th className="px-4 py-3 font-medium">操作</th>
             </tr>
           </thead>
           <tbody>
             {users.map((u) => {
               const isSelf = u.uid === currentUid;
               return (
-                <tr key={u.uid} className="border-b border-line last:border-0">
+                <tr key={u.uid} className="border-b border-line align-middle last:border-0">
                   <td className="px-5 py-4">
-                    <span className="text-ink">{u.email || "（無 Email）"}</span>
-                    {isSelf && <span className="ml-2 text-[11px] text-gold">你</span>}
+                    <div className="truncate text-ink">
+                      {u.email || "（無 Email）"}
+                      {isSelf && <span className="ml-2 text-[11px] text-gold">你</span>}
+                    </div>
                     {u.displayName && (
-                      <span className="mt-0.5 block text-xs text-muted">{u.displayName}</span>
+                      <div className="truncate text-xs text-muted">{u.displayName}</div>
                     )}
                   </td>
                   <td className="px-4 py-4">
                     <select
-                      className={cn(fieldCls, "w-40 !py-1.5 text-xs")}
+                      className={cn(fieldCls, "!py-1.5 text-xs")}
                       value={u.role ?? ""}
                       disabled={pending || isSelf}
                       onChange={(e) => changeRole(u.uid, e.target.value as Role)}
@@ -185,7 +194,7 @@ export function UsersManager({
                   <td className="whitespace-nowrap px-4 py-4 text-muted">
                     {u.createdAt ? new Date(u.createdAt).toISOString().slice(0, 10) : "—"}
                   </td>
-                  <td className="px-5 py-4">
+                  <td className="px-4 py-4">
                     <div className="flex items-center gap-2">
                       <button
                         type="button"
