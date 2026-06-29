@@ -40,6 +40,20 @@ export interface CmsUser {
   createdAt?: number;
 }
 
+/**
+ * A user row as shown in the admin Users screen. Sourced from Firebase Auth
+ * (role may be absent for accounts created outside the CMS). Plain-data shape,
+ * safe to pass from the server page to the client manager component.
+ */
+export interface AdminUserView {
+  uid: string;
+  email: string;
+  displayName: string;
+  role: Role | null;
+  disabled: boolean;
+  createdAt: number | null;
+}
+
 /** cases/{id} — a before/after case study, localized. */
 export interface CaseDoc {
   id: string;
