@@ -22,6 +22,14 @@ export const COLLECTIONS = {
 /** seo/{page} — per-page SEO for every locale. */
 export type SeoDoc = Partial<Record<Locale, Partial<SeoEntry>>>;
 
+/**
+ * content/{page} — per-page copy overrides for every locale.
+ * Inner map is keyed by a Firestore-safe field key (dot-path with `.` → `__`,
+ * see `content-fields.ts`); values override the matching field in the static
+ * dictionary, empty/absent falls back to the default.
+ */
+export type ContentDoc = Partial<Record<Locale, Record<string, string>>>;
+
 /** A managed admin/editor user (mirrors the Auth custom claim). */
 export interface CmsUser {
   uid: string;
