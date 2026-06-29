@@ -1,0 +1,16 @@
+rules_version = '2';
+
+// RENU CMS — Firestore security rules.
+//
+// Every app access path (admin pages, server actions, session verification)
+// goes through the Firebase Admin SDK on the server, which BYPASSES these rules
+// entirely. No browser client ever reads or writes Firestore directly, so the
+// safe default is to deny all client access — defense in depth. If a feature
+// later needs direct client reads, open up only the specific collection here.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -28,11 +28,61 @@
 }
 
 /* ============================================================
+   Light theme — overrides the dark tokens when <html> has .light
+   ============================================================ */
+html.light {
+  color-scheme: light;
+
+  --color-base: #f7f4ee;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1ece3;
+  --color-elevated: #ffffff;
+  --color-ink: #1c1814;
+  --color-muted: #6a6258;
+  --color-faint: #9b9387;
+  --color-line: rgba(28, 24, 20, 0.1);
+  --color-line-strong: rgba(28, 24, 20, 0.18);
+  --color-gold: #a8884e;
+  --color-gold-soft: #c8a86a;
+  --color-gold-deep: #7c6230;
+
+  --panel-gold-from: #f3e9d4;
+  --panel-muted-from: #ece7dd;
+  --panel-cta-from: #f4ead2;
+  --panel-grid: rgba(28, 24, 20, 0.05);
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #d8d2c6;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #c7c0b1;
+}
+
+/* Theme toggle — show the icon for the action the click performs:
+   dark active → sun (switch to light); light active → moon (switch to dark). */
+.theme-icon--moon {
+  display: none;
+}
+html.light .theme-icon--sun {
+  display: none;
+}
+html.light .theme-icon--moon {
+  display: block;
+}
+
+/* ============================================================
    Base
    ============================================================ */
 @layer base {
   :root {
     color-scheme: dark;
+
+    /* Decorative panel gradients (Frame / CTA) — overridden in light mode */
+    --panel-gold-from: #1c1710;
+    --panel-muted-from: #161618;
+    --panel-cta-from: #1b160d;
+    --panel-grid: rgba(255, 255, 255, 0.025);
   }
 
   * {

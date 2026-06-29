@@ -20,6 +20,7 @@ const zh = {
     lineConsult: "LINE 諮詢",
     readMore: "閱讀更多",
     backToTop: "回到頂端",
+    toggleTheme: "切換深淺色模式",
   },
   brand: {
     name: "RENU",

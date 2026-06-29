@@ -22,6 +22,7 @@ const en: Dictionary = {
     lineConsult: "LINE Chat",
     readMore: "Read More",
     backToTop: "Back to top",
+    toggleTheme: "Toggle dark / light mode",
   },
   brand: {
     name: "RENU",

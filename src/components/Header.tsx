@@ -8,6 +8,7 @@ import type { Dictionary } from "@/i18n/dictionaries/zh";
 import { localizedPath, cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ThemeToggle } from "./ThemeToggle";
 import { MenuIcon, CloseIcon, ArrowRight } from "./icons";
 
 export function Header({ dict, locale }: { dict: Dictionary; locale: Locale }) {
@@ -73,6 +74,7 @@ export function Header({ dict, locale }: { dict: Dictionary; locale: Locale }) {
           </nav>
 
           <div className="flex items-center gap-3">
+            <ThemeToggle label={dict.common.toggleTheme} className="grid" />
             <LanguageSwitcher locale={locale} className="hidden sm:inline-flex" />
             <Link
               href={localizedPath(locale, "/contact")}

@@ -13,7 +13,7 @@ export function CTA({ dict, locale }: { dict: Dictionary; locale: Locale }) {
     <section className="section">
       <div className="shell">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[calc(var(--radius)+6px)] border border-line bg-gradient-to-br from-[#1b160d] via-surface to-base px-8 py-16 text-center md:px-16 md:py-24">
+          <div className="relative overflow-hidden rounded-[calc(var(--radius)+6px)] border border-line bg-gradient-to-br from-(--panel-cta-from) via-surface to-base px-8 py-16 text-center md:px-16 md:py-24">
             <div
               className="pointer-events-none absolute inset-0"
               style={{

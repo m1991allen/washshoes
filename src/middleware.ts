@@ -40,6 +40,20 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Admin area: not localized. Coarse auth gate here (cookie presence only);
+  // the real session verification runs in the admin layout (Node runtime, where
+  // firebase-admin is available). Edge middleware can't run firebase-admin.
+  if (pathname.startsWith("/admin")) {
+    if (pathname === "/admin/login") return NextResponse.next();
+    if (!request.cookies.has("session")) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/admin/login";
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
+  }
+
   if (hasLocalePrefix(pathname)) {
     return NextResponse.next();
   }

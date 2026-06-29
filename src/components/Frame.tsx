@@ -26,8 +26,8 @@ export function Frame({
   const tones = {
     default:
       "from-surface-2 to-base [--glow:rgba(200,168,106,0.16)]",
-    gold: "from-[#1c1710] to-base [--glow:rgba(200,168,106,0.30)]",
-    muted: "from-[#161618] to-base [--glow:rgba(255,255,255,0.05)]",
+    gold: "from-(--panel-gold-from) to-base [--glow:rgba(200,168,106,0.30)]",
+    muted: "from-(--panel-muted-from) to-base [--glow:rgba(200,168,106,0.08)]",
   } as const;
 
   return (
@@ -51,7 +51,7 @@ export function Frame({
         className="pointer-events-none absolute inset-0 opacity-[0.4]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
+            "linear-gradient(var(--panel-grid) 1px, transparent 1px), linear-gradient(90deg, var(--panel-grid) 1px, transparent 1px)",
           backgroundSize: "44px 44px",
         }}
       />
