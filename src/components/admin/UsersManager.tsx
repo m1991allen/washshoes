@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import type { AdminUserView, Role } from "@/lib/cms/types";
 import { cn } from "@/lib/utils";
+import { EyeIcon, EyeOffIcon } from "@/components/icons";
 import {
   createUserAction,
   setRoleAction,
@@ -29,6 +30,7 @@ export function UsersManager({
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [role, setRole] = useState<Role>("editor");
+  const [showPassword, setShowPassword] = useState(false);
 
   const notify = (res: { ok: boolean; error?: string }, okText: string) =>
     setNotice(res.ok ? { kind: "ok", text: okText } : { kind: "error", text: res.error || "操作失敗" });
@@ -44,6 +46,7 @@ export function UsersManager({
         setPassword("");
         setDisplayName("");
         setRole("editor");
+        setShowPassword(false);
       }
     });
   }
@@ -83,15 +86,30 @@ export function UsersManager({
           </div>
           <div>
             <label className={labelCls}>初始密碼（至少 6 碼）</label>
-            <input
-              type="text"
-              required
-              minLength={6}
-              className={fieldCls}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="設定初始密碼，交給對方後請其自行更改"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                minLength={6}
+                className={cn(fieldCls, "pr-11")}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="設定初始密碼，交給對方後請其自行更改"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? "隱藏密碼" : "顯示密碼"}
+                title={showPassword ? "隱藏密碼" : "顯示密碼"}
+                className="absolute inset-y-0 right-0 grid w-11 place-items-center text-faint transition-colors hover:text-gold"
+              >
+                {showPassword ? (
+                  <EyeOffIcon width={18} height={18} />
+                ) : (
+                  <EyeIcon width={18} height={18} />
+                )}
+              </button>
+            </div>
           </div>
           <div>
             <label className={labelCls}>顯示名稱</label>
