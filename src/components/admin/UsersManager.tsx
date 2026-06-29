@@ -126,94 +126,97 @@ export function UsersManager({
       </form>
 
       {notice && (
-        <p className={cn("text-sm", notice.kind === "ok" ? "text-gold" : "text-red-300")}>
+        <p className={cn("text-sm", notice.kind === "ok" ? "text-gold" : "text-red-600")}>
           {notice.text}
         </p>
       )}
 
       {/* List */}
-      <div className="card overflow-hidden">
-        <div className="hidden grid-cols-[1fr_160px_96px_112px_150px] gap-3 border-b border-line px-5 py-3 text-xs uppercase tracking-[0.12em] text-faint md:grid">
-          <span>帳號</span>
-          <span>角色</span>
-          <span>狀態</span>
-          <span>建立日期</span>
-          <span className="text-right">操作</span>
-        </div>
-
-        {users.map((u) => {
-          const isSelf = u.uid === currentUid;
-          return (
-            <div
-              key={u.uid}
-              className="grid grid-cols-1 gap-3 border-b border-line px-5 py-4 text-sm last:border-0 md:grid-cols-[1fr_160px_96px_112px_150px] md:items-center"
-            >
-              <div className="min-w-0">
-                <p className="truncate text-ink">
-                  {u.email || "（無 Email）"}
-                  {isSelf && <span className="ml-2 text-[11px] text-gold">你</span>}
-                </p>
-                {u.displayName && <p className="truncate text-xs text-muted">{u.displayName}</p>}
-              </div>
-
-              <div>
-                <select
-                  className={cn(fieldCls, "!py-1.5 text-xs")}
-                  value={u.role ?? ""}
-                  disabled={pending || isSelf}
-                  onChange={(e) => changeRole(u.uid, e.target.value as Role)}
-                  title={isSelf ? "不能變更自己的角色" : undefined}
-                >
-                  {u.role === null && (
-                    <option value="" disabled>
-                      未設定
-                    </option>
-                  )}
-                  <option value="editor">{ROLE_LABELS.editor}</option>
-                  <option value="admin">{ROLE_LABELS.admin}</option>
-                </select>
-              </div>
-
-              <div>
-                <span
-                  className={cn(
-                    "rounded-full px-2.5 py-1 text-[11px]",
-                    u.disabled ? "bg-red-500/10 text-red-300" : "bg-gold/10 text-gold"
-                  )}
-                >
-                  {u.disabled ? "已停用" : "啟用中"}
-                </span>
-              </div>
-
-              <div className="text-xs text-muted">
-                {u.createdAt ? new Date(u.createdAt).toISOString().slice(0, 10) : "—"}
-              </div>
-
-              <div className="flex items-center justify-end gap-2">
-                <button
-                  type="button"
-                  disabled={pending || isSelf}
-                  onClick={() => toggleDisabled(u.uid, !u.disabled)}
-                  className="rounded-full border border-line px-3 py-1.5 text-xs text-muted transition-colors hover:border-gold hover:text-gold disabled:opacity-40"
-                >
-                  {u.disabled ? "啟用" : "停用"}
-                </button>
-                <button
-                  type="button"
-                  disabled={pending || isSelf}
-                  onClick={() => remove(u.uid, u.email || u.uid)}
-                  className="rounded-full border border-line px-3 py-1.5 text-xs text-red-300/80 transition-colors hover:border-red-400/50 hover:text-red-300 disabled:opacity-40"
-                >
-                  刪除
-                </button>
-              </div>
-            </div>
-          );
-        })}
-
-        {users.length === 0 && (
-          <p className="px-5 py-8 text-center text-sm text-muted">尚無帳號</p>
-        )}
+      <div className="card overflow-x-auto">
+        <table className="min-w-[640px] text-left text-sm">
+          <thead>
+            <tr className="border-b border-line text-xs uppercase tracking-[0.12em] text-faint">
+              <th className="px-5 py-3 font-medium">帳號</th>
+              <th className="px-4 py-3 font-medium">角色</th>
+              <th className="px-4 py-3 font-medium">狀態</th>
+              <th className="px-4 py-3 font-medium">建立日期</th>
+              <th className="px-5 py-3 font-medium">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((u) => {
+              const isSelf = u.uid === currentUid;
+              return (
+                <tr key={u.uid} className="border-b border-line last:border-0">
+                  <td className="px-5 py-4">
+                    <span className="text-ink">{u.email || "（無 Email）"}</span>
+                    {isSelf && <span className="ml-2 text-[11px] text-gold">你</span>}
+                    {u.displayName && (
+                      <span className="mt-0.5 block text-xs text-muted">{u.displayName}</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-4">
+                    <select
+                      className={cn(fieldCls, "w-40 !py-1.5 text-xs")}
+                      value={u.role ?? ""}
+                      disabled={pending || isSelf}
+                      onChange={(e) => changeRole(u.uid, e.target.value as Role)}
+                      title={isSelf ? "不能變更自己的角色" : undefined}
+                    >
+                      {u.role === null && (
+                        <option value="" disabled>
+                          未設定
+                        </option>
+                      )}
+                      <option value="editor">{ROLE_LABELS.editor}</option>
+                      <option value="admin">{ROLE_LABELS.admin}</option>
+                    </select>
+                  </td>
+                  <td className="px-4 py-4">
+                    <span
+                      className={cn(
+                        "inline-block whitespace-nowrap rounded-full px-2.5 py-1 text-[11px]",
+                        u.disabled ? "bg-red-500/10 text-red-700" : "bg-gold/15 text-gold-deep"
+                      )}
+                    >
+                      {u.disabled ? "已停用" : "啟用中"}
+                    </span>
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-4 text-muted">
+                    {u.createdAt ? new Date(u.createdAt).toISOString().slice(0, 10) : "—"}
+                  </td>
+                  <td className="px-5 py-4">
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        disabled={pending || isSelf}
+                        onClick={() => toggleDisabled(u.uid, !u.disabled)}
+                        className="rounded-full border border-line px-3 py-1.5 text-xs text-muted transition-colors hover:border-gold hover:text-gold disabled:opacity-40"
+                      >
+                        {u.disabled ? "啟用" : "停用"}
+                      </button>
+                      <button
+                        type="button"
+                        disabled={pending || isSelf}
+                        onClick={() => remove(u.uid, u.email || u.uid)}
+                        className="rounded-full border border-line px-3 py-1.5 text-xs text-red-600 transition-colors hover:border-red-400 hover:text-red-700 disabled:opacity-40"
+                      >
+                        刪除
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+            {users.length === 0 && (
+              <tr>
+                <td colSpan={5} className="px-5 py-8 text-center text-muted">
+                  尚無帳號
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
