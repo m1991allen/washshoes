@@ -133,7 +133,7 @@ export function UsersManager({
 
       {/* List */}
       <div className="card overflow-hidden">
-        <div className="hidden grid-cols-[1fr_150px_110px_110px_auto] gap-3 border-b border-line px-5 py-3 text-xs uppercase tracking-[0.12em] text-faint md:grid">
+        <div className="hidden grid-cols-[1fr_160px_96px_112px_150px] gap-3 border-b border-line px-5 py-3 text-xs uppercase tracking-[0.12em] text-faint md:grid">
           <span>帳號</span>
           <span>角色</span>
           <span>狀態</span>
@@ -146,7 +146,7 @@ export function UsersManager({
           return (
             <div
               key={u.uid}
-              className="grid grid-cols-1 gap-3 border-b border-line px-5 py-4 text-sm last:border-0 md:grid-cols-[1fr_150px_110px_110px_auto] md:items-center"
+              className="grid grid-cols-1 gap-3 border-b border-line px-5 py-4 text-sm last:border-0 md:grid-cols-[1fr_160px_96px_112px_150px] md:items-center"
             >
               <div className="min-w-0">
                 <p className="truncate text-ink">
