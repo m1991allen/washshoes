@@ -13,7 +13,7 @@ export default function AdminRootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-Hant-TW">
+    <html lang="zh-Hant-TW" className="light">
       <body className="bg-base text-ink antialiased">{children}</body>
     </html>
   );

@@ -187,7 +187,7 @@ function LocaleCard({
           {pending ? "儲存中…" : "儲存"}
         </button>
         {status === "saved" && <span className="text-xs text-gold">已儲存 ✓</span>}
-        {status === "error" && <span className="text-xs text-red-300">{errorMsg}</span>}
+        {status === "error" && <span className="text-xs text-red-600">{errorMsg}</span>}
       </div>
     </div>
   );
