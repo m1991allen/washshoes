@@ -4,6 +4,8 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { getClientAuth, isFirebaseConfigured } from "@/lib/firebase/client";
+import { cn } from "@/lib/utils";
+import { EyeIcon, EyeOffIcon } from "@/components/icons";
 
 function mapError(err: unknown): string {
   const code =
@@ -26,6 +28,7 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -103,16 +106,31 @@ export default function AdminLoginPage() {
               >
                 密碼
               </label>
-              <input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className={field}
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className={cn(field, "pr-11")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? "隱藏密碼" : "顯示密碼"}
+                  title={showPassword ? "隱藏密碼" : "顯示密碼"}
+                  className="absolute inset-y-0 right-0 grid w-11 place-items-center text-faint transition-colors hover:text-gold"
+                >
+                  {showPassword ? (
+                    <EyeIcon width={18} height={18} />
+                  ) : (
+                    <EyeOffIcon width={18} height={18} />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
