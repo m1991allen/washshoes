@@ -1,23 +1,29 @@
 "use client";
 
 import { useCallback, useRef, useState, type ReactNode } from "react";
+import Image from "next/image";
 import { Frame } from "./Frame";
 
 /**
  * Draggable before/after comparison.
  *
- * Uses two tone treatments as a demonstrative placeholder (muted = before,
- * gold = after). Swap the two <Frame> children for real images later.
+ * When `beforeImage`/`afterImage` are provided they render as real photos;
+ * otherwise it falls back to the tone-treated placeholder (muted = before,
+ * gold = after) so the layout still looks intentional.
  */
 export function BeforeAfter({
   icon,
   beforeLabel,
   afterLabel,
+  beforeImage,
+  afterImage,
   className = "",
 }: {
   icon?: ReactNode;
   beforeLabel: string;
   afterLabel: string;
+  beforeImage?: string;
+  afterImage?: string;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -31,6 +37,8 @@ export function BeforeAfter({
     const next = ((clientX - rect.left) / rect.width) * 100;
     setPos(Math.min(100, Math.max(0, next)));
   }, []);
+
+  const sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
 
   return (
     <div
@@ -46,14 +54,33 @@ export function BeforeAfter({
       onPointerCancel={() => (dragging.current = false)}
     >
       {/* After (full) */}
-      <Frame tone="gold" icon={icon} label={afterLabel} className="aspect-[4/3] w-full" />
+      <Frame tone="gold" icon={afterImage ? undefined : icon} label={afterLabel} className="aspect-[4/3] w-full">
+        {afterImage ? (
+          <Image
+            src={afterImage}
+            alt={afterLabel}
+            fill
+            sizes={sizes}
+            draggable={false}
+            className="pointer-events-none select-none object-cover"
+          />
+        ) : undefined}
+      </Frame>
 
       {/* Before (clipped to the left of the handle) */}
-      <div
-        className="absolute inset-0"
-        style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
-      >
-        <Frame tone="muted" icon={icon} label={beforeLabel} className="aspect-[4/3] w-full" />
+      <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
+        <Frame tone="muted" icon={beforeImage ? undefined : icon} label={beforeLabel} className="aspect-[4/3] w-full">
+          {beforeImage ? (
+            <Image
+              src={beforeImage}
+              alt={beforeLabel}
+              fill
+              sizes={sizes}
+              draggable={false}
+              className="pointer-events-none select-none object-cover"
+            />
+          ) : undefined}
+        </Frame>
       </div>
 
       {/* Handle */}

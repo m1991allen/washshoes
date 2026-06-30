@@ -5,7 +5,14 @@ import { BeforeAfter } from "./BeforeAfter";
 import { serviceIcons } from "./icons";
 import { cn } from "@/lib/utils";
 
-type CaseItem = { id: string; category: string; title: string; desc: string };
+type CaseItem = {
+  id: string;
+  category: string;
+  title: string;
+  desc: string;
+  beforeImage?: string;
+  afterImage?: string;
+};
 type Filter = { id: string; label: string };
 
 export function CasesGrid({
@@ -53,6 +60,8 @@ export function CasesGrid({
                 icon={<Icon />}
                 beforeLabel={beforeLabel}
                 afterLabel={afterLabel}
+                beforeImage={c.beforeImage}
+                afterImage={c.afterImage}
               />
               <h3 className="mt-4 font-serif text-lg text-ink">{c.title}</h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">{c.desc}</p>
