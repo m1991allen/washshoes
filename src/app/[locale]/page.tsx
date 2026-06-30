@@ -20,11 +20,7 @@ export async function generateMetadata({
   return buildMetadata(isLocale(locale) ? locale : "zh", "home");
 }
 
-export default async function HomePage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const safeLocale = isLocale(locale) ? locale : "zh";
   const dict = await getDictionary(safeLocale);

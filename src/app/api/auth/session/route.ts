@@ -22,10 +22,7 @@ export async function POST(req: NextRequest) {
     const decoded = await adminAuth().verifyIdToken(idToken);
     // Only users granted a role (admin/editor) may obtain a session.
     if (!decoded.role) {
-      return NextResponse.json(
-        { error: "此帳號沒有後台權限，請聯絡管理員。" },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: "此帳號沒有後台權限，請聯絡管理員。" }, { status: 403 });
     }
 
     const sessionCookie = await adminAuth().createSessionCookie(idToken, {

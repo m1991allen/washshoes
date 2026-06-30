@@ -20,7 +20,8 @@ if (!projectId || !clientEmail || !privateKey) {
 }
 
 try {
-  if (!getApps().length) initializeApp({ credential: cert({ projectId, clientEmail, privateKey }) });
+  if (!getApps().length)
+    initializeApp({ credential: cert({ projectId, clientEmail, privateKey }) });
   console.log("\n✓ Admin SDK 初始化成功（金鑰格式正確）");
 } catch (e) {
   console.error("\n✗ Admin SDK 初始化失敗：", e.message);
@@ -29,7 +30,9 @@ try {
 
 try {
   const u = await getAuth().getUserByEmail(email);
-  console.log(`✓ 使用者存在：${email}  uid=${u.uid}  claims=${JSON.stringify(u.customClaims || {})}`);
+  console.log(
+    `✓ 使用者存在：${email}  uid=${u.uid}  claims=${JSON.stringify(u.customClaims || {})}`,
+  );
 } catch (e) {
   console.error(`✗ 找不到使用者 ${email}：`, e.errorInfo?.code || e.message);
 }

@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     return NextResponse.json(
       { error: e instanceof Error ? e.message : "上傳失敗" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

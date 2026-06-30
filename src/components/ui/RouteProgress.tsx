@@ -86,10 +86,7 @@ export function RouteProgress() {
   if (!active) return null;
 
   return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px]"
-    >
+    <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px]">
       <div
         className="h-full bg-gradient-to-r from-gold-soft via-gold to-gold-deep transition-[width,opacity] duration-200 ease-out"
         style={{

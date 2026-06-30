@@ -24,8 +24,7 @@ export function Frame({
   children?: ReactNode;
 }) {
   const tones = {
-    default:
-      "from-surface-2 to-base [--glow:rgba(200,168,106,0.16)]",
+    default: "from-surface-2 to-base [--glow:rgba(200,168,106,0.16)]",
     gold: "from-(--panel-gold-from) to-base [--glow:rgba(200,168,106,0.30)]",
     muted: "from-(--panel-muted-from) to-base [--glow:rgba(200,168,106,0.08)]",
   } as const;
@@ -35,15 +34,14 @@ export function Frame({
       className={cn(
         "relative overflow-hidden rounded-[var(--radius)] border border-line bg-gradient-to-br",
         tones[tone],
-        className
+        className,
       )}
     >
       {/* glow */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background:
-            "radial-gradient(circle at 30% 20%, var(--glow), transparent 55%)",
+          background: "radial-gradient(circle at 30% 20%, var(--glow), transparent 55%)",
         }}
       />
       {/* grain / fine grid */}
@@ -69,7 +67,7 @@ export function Frame({
       )}
 
       {label && (
-        <span className="absolute left-4 top-4 rounded-full border border-line bg-base/60 px-3 py-1 text-xs tracking-wide text-muted backdrop-blur">
+        <span className="absolute left-4 top-4 rounded-full border border-line bg-base/60 px-3 py-1 text-xs tracking-wide text-white backdrop-blur">
           {label}
         </span>
       )}

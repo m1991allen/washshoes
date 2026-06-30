@@ -3,11 +3,7 @@ import { requireUser } from "@/lib/auth/session";
 import { AdminNav } from "@/components/admin/AdminNav";
 import { LogoutButton } from "@/components/admin/LogoutButton";
 
-export default async function ProtectedAdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function ProtectedAdminLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser();
 
   return (

@@ -46,7 +46,8 @@ export default async function SeoAdminPage() {
     <div>
       <h1 className="font-serif text-3xl text-ink">SEO 設定</h1>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-        逐頁、逐語系編輯搜尋引擎與社群分享用的標籤。欄位留白會自動套用內建預設值（即 placeholder 顯示的內容）。
+        逐頁、逐語系編輯搜尋引擎與社群分享用的標籤。欄位留白會自動套用內建預設值（即 placeholder
+        顯示的內容）。
       </p>
       <div className="mt-8">
         <SeoEditor pages={pages} />

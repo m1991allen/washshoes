@@ -11,7 +11,7 @@ export type ContentFormResult = { ok: boolean; error?: string };
 export async function saveContentAction(
   page: PageKey,
   locale: Locale,
-  fields: Record<string, string>
+  fields: Record<string, string>,
 ): Promise<ContentFormResult> {
   // Re-verify on the server — never trust the client.
   await requireUser(["admin", "editor"]);

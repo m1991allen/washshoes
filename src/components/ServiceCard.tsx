@@ -28,9 +28,7 @@ export function ServiceCard({
           <span className="grid h-14 w-14 place-items-center rounded-full border border-line text-gold transition-colors group-hover:border-gold/50">
             <Icon width={26} height={26} />
           </span>
-          <span className="font-serif text-sm tracking-[0.2em] text-faint">
-            {service.short}
-          </span>
+          <span className="font-serif text-sm tracking-[0.2em] text-faint">{service.short}</span>
         </div>
         <h3 className="mt-6 font-serif text-2xl text-ink">{service.name}</h3>
         <p className="mt-3 text-sm leading-relaxed text-muted">{service.desc}</p>

@@ -19,22 +19,10 @@ export function SectionHeading({
 }) {
   const centered = align === "center";
   return (
-    <Reveal
-      className={cn(
-        "max-w-2xl",
-        centered && "mx-auto text-center",
-        className
-      )}
-    >
-      {eyebrow && (
-        <span className={cn("eyebrow", centered && "is-centered")}>{eyebrow}</span>
-      )}
-      <h2 className={cn("mt-5 whitespace-pre-line text-ink", titleClassName)}>
-        {title}
-      </h2>
-      {subtitle && (
-        <p className="mt-5 text-base leading-relaxed text-muted">{subtitle}</p>
-      )}
+    <Reveal className={cn("max-w-2xl", centered && "mx-auto text-center", className)}>
+      {eyebrow && <span className={cn("eyebrow", centered && "is-centered")}>{eyebrow}</span>}
+      <h2 className={cn("mt-5 whitespace-pre-line text-ink", titleClassName)}>{title}</h2>
+      {subtitle && <p className="mt-5 text-base leading-relaxed text-muted">{subtitle}</p>}
     </Reveal>
   );
 }

@@ -4,14 +4,7 @@ import type { Dictionary } from "@/i18n/dictionaries/zh";
 import { site } from "@/lib/site";
 import { localizedPath } from "@/lib/utils";
 import { Logo } from "./Logo";
-import {
-  FacebookIcon,
-  InstagramIcon,
-  LineIcon,
-  MapPinIcon,
-  ClockIcon,
-  PhoneIcon,
-} from "./icons";
+import { FacebookIcon, InstagramIcon, LineIcon, MapPinIcon, ClockIcon, PhoneIcon } from "./icons";
 
 export function Footer({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const { nav, footer } = dict;
@@ -38,9 +31,7 @@ export function Footer({ dict, locale }: { dict: Dictionary; locale: Locale }) {
         {/* Brand */}
         <div className="md:col-span-5">
           <Logo locale={locale} />
-          <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted">
-            {footer.tagline}
-          </p>
+          <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted">{footer.tagline}</p>
           <div className="mt-6 flex items-center gap-3">
             {socials.map(({ href, label, Icon }) => (
               <a
@@ -65,10 +56,7 @@ export function Footer({ dict, locale }: { dict: Dictionary; locale: Locale }) {
           <ul className="mt-5 space-y-3 text-sm">
             {navItems.map((item) => (
               <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-muted transition-colors hover:text-gold"
-                >
+                <Link href={item.href} className="text-muted transition-colors hover:text-gold">
                   {item.label}
                 </Link>
               </li>

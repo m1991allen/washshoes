@@ -29,9 +29,7 @@ export function AdminNav({ role }: { role: Role | null }) {
           href={item.href}
           className={cn(
             "whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm transition-colors",
-            isActive(item.href)
-              ? "bg-gold/15 text-gold"
-              : "text-muted hover:text-ink"
+            isActive(item.href) ? "bg-gold/15 text-gold" : "text-muted hover:text-ink",
           )}
         >
           {item.label}

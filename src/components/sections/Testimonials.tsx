@@ -8,19 +8,13 @@ export function Testimonials({ dict }: { dict: Dictionary }) {
   return (
     <section className="section bg-surface/40">
       <div className="shell">
-        <SectionHeading
-          eyebrow={testimonials.eyebrow}
-          title={testimonials.title}
-          align="center"
-        />
+        <SectionHeading eyebrow={testimonials.eyebrow} title={testimonials.title} align="center" />
 
         <div className="mt-14 grid gap-5 md:grid-cols-3">
           {testimonials.items.map((t, i) => (
             <Reveal key={t.name} delay={i * 90}>
               <figure className="card flex h-full flex-col p-8">
-                <span className="font-serif text-5xl leading-none text-gold/40">
-                  &ldquo;
-                </span>
+                <span className="font-serif text-5xl leading-none text-gold/40">&ldquo;</span>
                 <blockquote className="mt-3 flex-1 text-base leading-relaxed text-ink/90">
                   {t.quote}
                 </blockquote>

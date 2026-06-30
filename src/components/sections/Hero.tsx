@@ -55,11 +55,7 @@ export function Hero({ dict, locale }: { dict: Dictionary; locale: Locale }) {
 
         {/* Visual */}
         <div className="relative">
-          <Frame
-            tone="gold"
-            icon={<ShoeCleanIcon />}
-            className="aspect-[4/5] w-full"
-          />
+          <Frame tone="gold" icon={<ShoeCleanIcon />} className="aspect-[4/5] w-full" />
           {/* floating accent card */}
           <div className="absolute -bottom-6 -left-6 hidden w-48 rounded-2xl border border-line bg-base/80 p-4 backdrop-blur-md sm:block">
             <div className="flex items-center gap-3">

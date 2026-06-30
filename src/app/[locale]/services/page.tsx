@@ -19,11 +19,7 @@ export async function generateMetadata({
   return buildMetadata(isLocale(locale) ? locale : "zh", "services");
 }
 
-export default async function ServicesPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function ServicesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const safeLocale = isLocale(locale) ? locale : "zh";
   const dict = await getDictionary(safeLocale);
@@ -66,7 +62,10 @@ export default async function ServicesPage({
                 <h2 className="font-serif text-2xl text-ink md:text-3xl">{page.ctaTitle}</h2>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">{page.ctaText}</p>
               </div>
-              <Link href={localizedPath(safeLocale, "/contact")} className="btn btn-primary shrink-0">
+              <Link
+                href={localizedPath(safeLocale, "/contact")}
+                className="btn btn-primary shrink-0"
+              >
                 {dict.common.bookNow}
                 <ArrowRight width={18} height={18} />
               </Link>

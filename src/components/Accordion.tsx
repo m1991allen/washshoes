@@ -24,7 +24,7 @@ export function Accordion({ items }: { items: Item[] }) {
               <span
                 className={cn(
                   "font-serif text-lg transition-colors md:text-xl",
-                  isOpen ? "text-gold" : "text-ink"
+                  isOpen ? "text-gold" : "text-ink",
                 )}
               >
                 {item.q}
@@ -32,7 +32,7 @@ export function Accordion({ items }: { items: Item[] }) {
               <span
                 className={cn(
                   "grid h-9 w-9 shrink-0 place-items-center rounded-full border transition-all duration-300",
-                  isOpen ? "rotate-45 border-gold text-gold" : "border-line text-muted"
+                  isOpen ? "rotate-45 border-gold text-gold" : "border-line text-muted",
                 )}
               >
                 <PlusIcon width={18} height={18} />
@@ -41,7 +41,7 @@ export function Accordion({ items }: { items: Item[] }) {
             <div
               className={cn(
                 "grid transition-all duration-300 ease-out",
-                isOpen ? "grid-rows-[1fr] pb-7 opacity-100" : "grid-rows-[0fr] opacity-0"
+                isOpen ? "grid-rows-[1fr] pb-7 opacity-100" : "grid-rows-[0fr] opacity-0",
               )}
             >
               <div className="overflow-hidden">

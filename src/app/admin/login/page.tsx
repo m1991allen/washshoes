@@ -7,9 +7,7 @@ import { getClientAuth, isFirebaseConfigured } from "@/lib/firebase/client";
 
 function mapError(err: unknown): string {
   const code =
-    typeof err === "object" && err && "code" in err
-      ? String((err as { code: string }).code)
-      : "";
+    typeof err === "object" && err && "code" in err ? String((err as { code: string }).code) : "";
   switch (code) {
     case "auth/invalid-email":
       return "Email 格式不正確。";
@@ -81,7 +79,10 @@ export default function AdminLoginPage() {
 
           <div className="mt-6 space-y-4">
             <div>
-              <label htmlFor="email" className="mb-2 block text-xs uppercase tracking-[0.14em] text-faint">
+              <label
+                htmlFor="email"
+                className="mb-2 block text-xs uppercase tracking-[0.14em] text-faint"
+              >
                 Email
               </label>
               <input
@@ -96,7 +97,10 @@ export default function AdminLoginPage() {
               />
             </div>
             <div>
-              <label htmlFor="password" className="mb-2 block text-xs uppercase tracking-[0.14em] text-faint">
+              <label
+                htmlFor="password"
+                className="mb-2 block text-xs uppercase tracking-[0.14em] text-faint"
+              >
                 密碼
               </label>
               <input
@@ -118,7 +122,11 @@ export default function AdminLoginPage() {
             </p>
           )}
 
-          <button type="submit" disabled={loading} className="btn btn-primary mt-6 w-full disabled:opacity-60">
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn btn-primary mt-6 w-full disabled:opacity-60"
+          >
             {loading ? (
               <>
                 <span

@@ -21,6 +21,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: page === "home" ? 1 : 0.7,
         alternates: { languages },
       };
-    })
+    }),
   );
 }

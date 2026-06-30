@@ -11,7 +11,7 @@ export type SeoFormResult = { ok: boolean; error?: string };
 export async function saveSeoAction(
   page: PageKey,
   locale: Locale,
-  data: { title: string; description: string; keywords: string; ogImage: string }
+  data: { title: string; description: string; keywords: string; ogImage: string },
 ): Promise<SeoFormResult> {
   // Re-verify on the server — never trust the client.
   await requireUser(["admin", "editor"]);
