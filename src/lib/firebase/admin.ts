@@ -8,20 +8,13 @@
  * actually called without the env vars configured.
  */
 import "server-only";
-import {
-  getApps,
-  getApp,
-  initializeApp,
-  cert,
-  type App,
-} from "firebase-admin/app";
+import { getApps, getApp, initializeApp, cert, type App } from "firebase-admin/app";
 import { getAuth, type Auth } from "firebase-admin/auth";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 import { getStorage, type Storage } from "firebase-admin/storage";
 
 const storageBucket =
-  process.env.FIREBASE_STORAGE_BUCKET ??
-  process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
+  process.env.FIREBASE_STORAGE_BUCKET ?? process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
 
 function getServiceAccount() {
   const projectId = process.env.FIREBASE_PROJECT_ID;
@@ -31,7 +24,7 @@ function getServiceAccount() {
 
   if (!projectId || !clientEmail || !privateKey) {
     throw new Error(
-      "Missing Firebase Admin env vars (FIREBASE_PROJECT_ID / FIREBASE_CLIENT_EMAIL / FIREBASE_PRIVATE_KEY). See .env.example."
+      "Missing Firebase Admin env vars (FIREBASE_PROJECT_ID / FIREBASE_CLIENT_EMAIL / FIREBASE_PRIVATE_KEY). See .env.example.",
     );
   }
   return { projectId, clientEmail, privateKey };
@@ -40,8 +33,8 @@ function getServiceAccount() {
 export function isAdminConfigured(): boolean {
   return Boolean(
     process.env.FIREBASE_PROJECT_ID &&
-      process.env.FIREBASE_CLIENT_EMAIL &&
-      process.env.FIREBASE_PRIVATE_KEY
+    process.env.FIREBASE_CLIENT_EMAIL &&
+    process.env.FIREBASE_PRIVATE_KEY,
   );
 }
 

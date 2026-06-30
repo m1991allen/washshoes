@@ -46,7 +46,8 @@ export default async function ContentAdminPage() {
     <div>
       <h1 className="font-serif text-3xl text-ink">內容管理</h1>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-        逐頁、逐語系編輯網站主要文字。欄位留白會自動套用內建預設值（即 placeholder 顯示的內容）。儲存後前台頁面會自動更新。
+        逐頁、逐語系編輯網站主要文字。欄位留白會自動套用內建預設值（即 placeholder
+        顯示的內容）。儲存後前台頁面會自動更新。
       </p>
       <div className="mt-8">
         <ContentEditor pages={pages} />

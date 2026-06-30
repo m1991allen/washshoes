@@ -29,7 +29,12 @@ export function Intro({ dict, locale }: { dict: Dictionary; locale: Locale }) {
           </Reveal>
           <div className="mt-6 space-y-4">
             {intro.paragraphs.map((p, i) => (
-              <Reveal as="p" key={i} delay={i * 80} className="text-base leading-relaxed text-muted">
+              <Reveal
+                as="p"
+                key={i}
+                delay={i * 80}
+                className="text-base leading-relaxed text-muted"
+              >
                 {p}
               </Reveal>
             ))}

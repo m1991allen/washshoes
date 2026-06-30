@@ -20,7 +20,7 @@ function extFor(contentType: string): string {
 export async function uploadPublicImage(
   buffer: Buffer,
   contentType: string,
-  prefix = "uploads"
+  prefix = "uploads",
 ): Promise<string> {
   const path = `${prefix}/${randomUUID()}.${extFor(contentType)}`;
   const { url } = await put(path, buffer, {

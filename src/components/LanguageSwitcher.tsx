@@ -29,7 +29,7 @@ export function LanguageSwitcher({
     <div
       className={cn(
         "inline-flex items-center rounded-full border border-line p-0.5 text-xs",
-        className
+        className,
       )}
       role="group"
       aria-label="Language"
@@ -47,9 +47,7 @@ export function LanguageSwitcher({
             aria-current={active ? "true" : undefined}
             className={cn(
               "rounded-full px-2.5 py-1 font-medium tracking-wide transition-colors",
-              active
-                ? "bg-gold text-[#1a1408]"
-                : "text-muted hover:text-ink"
+              active ? "bg-gold text-[#1a1408]" : "text-muted hover:text-ink",
             )}
           >
             {localeNames[l]}

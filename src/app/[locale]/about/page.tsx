@@ -18,11 +18,7 @@ export async function generateMetadata({
   return buildMetadata(isLocale(locale) ? locale : "zh", "about");
 }
 
-export default async function AboutPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const safeLocale = isLocale(locale) ? locale : "zh";
   const dict = await getDictionary(safeLocale);
@@ -43,11 +39,20 @@ export default async function AboutPage({
       <section className="section">
         <div className="shell grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal className="relative">
-            <Frame tone="gold" icon={<ShoeRepairIcon />} className="aspect-[4/5] w-full lg:sticky lg:top-28" />
+            <Frame
+              tone="gold"
+              icon={<ShoeRepairIcon />}
+              className="aspect-[4/5] w-full lg:sticky lg:top-28"
+            />
           </Reveal>
           <div className="space-y-6">
             {page.story.map((p, i) => (
-              <Reveal as="p" key={i} delay={i * 70} className="text-base leading-loose text-muted md:text-lg">
+              <Reveal
+                as="p"
+                key={i}
+                delay={i * 70}
+                className="text-base leading-loose text-muted md:text-lg"
+              >
                 {p}
               </Reveal>
             ))}
@@ -79,7 +84,9 @@ export default async function AboutPage({
       <section className="section">
         <div className="shell">
           <Reveal>
-            <p className="text-center font-serif text-2xl text-ink md:text-3xl">{page.statsTitle}</p>
+            <p className="text-center font-serif text-2xl text-ink md:text-3xl">
+              {page.statsTitle}
+            </p>
             <div className="mt-12 grid grid-cols-2 gap-8 lg:grid-cols-4">
               {page.stats.map((s) => (
                 <div key={s.label} className="text-center">

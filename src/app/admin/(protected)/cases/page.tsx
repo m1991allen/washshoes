@@ -15,7 +15,8 @@ export default async function CasesAdminPage() {
     <div>
       <h1 className="font-serif text-3xl text-ink">案例管理</h1>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-        上傳處理前 / 後對比圖片、設定分類與中英文說明。勾選「發佈到前台」後才會顯示在公開的案例頁與首頁。
+        上傳處理前 /
+        後對比圖片、設定分類與中英文說明。勾選「發佈到前台」後才會顯示在公開的案例頁與首頁。
       </p>
       <div className="mt-8">
         <CasesManager initialCases={cases} categories={categories} />

@@ -28,7 +28,7 @@ export async function getAllContentDocs(): Promise<Record<string, ContentDoc>> {
 export async function saveContentFields(
   page: PageKey,
   locale: Locale,
-  fields: Record<string, string>
+  fields: Record<string, string>,
 ): Promise<void> {
   const clean: Record<string, string> = {};
   for (const [k, v] of Object.entries(fields)) {

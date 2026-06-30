@@ -33,7 +33,9 @@ export function UsersManager({
   const [showPassword, setShowPassword] = useState(false);
 
   const notify = (res: { ok: boolean; error?: string }, okText: string) =>
-    setNotice(res.ok ? { kind: "ok", text: okText } : { kind: "error", text: res.error || "操作失敗" });
+    setNotice(
+      res.ok ? { kind: "ok", text: okText } : { kind: "error", text: res.error || "操作失敗" },
+    );
 
   function submitCreate(e: React.FormEvent) {
     e.preventDefault();
@@ -58,7 +60,7 @@ export function UsersManager({
   const toggleDisabled = (uid: string, disabled: boolean) => {
     setNotice(null);
     startTransition(async () =>
-      notify(await setDisabledAction(uid, disabled), disabled ? "已停用帳號" : "已啟用帳號")
+      notify(await setDisabledAction(uid, disabled), disabled ? "已停用帳號" : "已啟用帳號"),
     );
   };
   const remove = (uid: string, label: string) => {
@@ -203,7 +205,7 @@ export function UsersManager({
                     <span
                       className={cn(
                         "inline-block whitespace-nowrap rounded-full px-2.5 py-1 text-[11px]",
-                        u.disabled ? "bg-red-500/10 text-red-700" : "bg-gold/15 text-gold-deep"
+                        u.disabled ? "bg-red-500/10 text-red-700" : "bg-gold/15 text-gold-deep",
                       )}
                     >
                       {u.disabled ? "已停用" : "啟用中"}

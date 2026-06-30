@@ -28,7 +28,7 @@ export async function getAllSeoDocs(): Promise<Record<string, SeoDoc>> {
 export async function saveSeoEntry(
   page: PageKey,
   locale: Locale,
-  entry: Partial<SeoEntry>
+  entry: Partial<SeoEntry>,
 ): Promise<void> {
   const clean: Record<string, unknown> = {};
   if (entry.title?.trim()) clean.title = entry.title.trim();

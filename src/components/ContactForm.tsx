@@ -55,22 +55,48 @@ export function ContactForm({
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className={labelCls} htmlFor="name">{labels.name}</label>
-          <input id="name" name="name" required placeholder={labels.namePlaceholder} className={field} />
+          <label className={labelCls} htmlFor="name">
+            {labels.name}
+          </label>
+          <input
+            id="name"
+            name="name"
+            required
+            placeholder={labels.namePlaceholder}
+            className={field}
+          />
         </div>
         <div>
-          <label className={labelCls} htmlFor="phone">{labels.phone}</label>
-          <input id="phone" name="phone" required placeholder={labels.phonePlaceholder} className={field} />
+          <label className={labelCls} htmlFor="phone">
+            {labels.phone}
+          </label>
+          <input
+            id="phone"
+            name="phone"
+            required
+            placeholder={labels.phonePlaceholder}
+            className={field}
+          />
         </div>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className={labelCls} htmlFor="email">{labels.email}</label>
-          <input id="email" name="email" type="email" placeholder={labels.emailPlaceholder} className={field} />
+          <label className={labelCls} htmlFor="email">
+            {labels.email}
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder={labels.emailPlaceholder}
+            className={field}
+          />
         </div>
         <div>
-          <label className={labelCls} htmlFor="service">{labels.service}</label>
+          <label className={labelCls} htmlFor="service">
+            {labels.service}
+          </label>
           <select id="service" name="service" defaultValue="" className={field} required>
             <option value="" disabled>
               {labels.servicePlaceholder}
@@ -85,7 +111,9 @@ export function ContactForm({
       </div>
 
       <div>
-        <label className={labelCls} htmlFor="message">{labels.message}</label>
+        <label className={labelCls} htmlFor="message">
+          {labels.message}
+        </label>
         <textarea
           id="message"
           name="message"

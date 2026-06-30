@@ -2,9 +2,24 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth/session";
 
 const CARDS = [
-  { href: "/admin/seo", title: "SEO 設定", desc: "逐頁、逐語系編輯標題、描述、關鍵字與社群分享圖。", roles: ["admin", "editor"] },
-  { href: "/admin/content", title: "內容管理", desc: "編輯首頁、服務、關於、FAQ 與聯絡資訊文案。", roles: ["admin", "editor"] },
-  { href: "/admin/cases", title: "案例管理", desc: "上傳前後對比圖片、管理案例分類與說明。", roles: ["admin", "editor"] },
+  {
+    href: "/admin/seo",
+    title: "SEO 設定",
+    desc: "逐頁、逐語系編輯標題、描述、關鍵字與社群分享圖。",
+    roles: ["admin", "editor"],
+  },
+  {
+    href: "/admin/content",
+    title: "內容管理",
+    desc: "編輯首頁、服務、關於、FAQ 與聯絡資訊文案。",
+    roles: ["admin", "editor"],
+  },
+  {
+    href: "/admin/cases",
+    title: "案例管理",
+    desc: "上傳前後對比圖片、管理案例分類與說明。",
+    roles: ["admin", "editor"],
+  },
   { href: "/admin/users", title: "使用者", desc: "新增後台帳號並設定權限角色。", roles: ["admin"] },
 ];
 
@@ -20,9 +35,7 @@ export default async function AdminDashboard({
   return (
     <div>
       <p className="text-sm text-muted">歡迎回來，</p>
-      <h1 className="mt-1 font-serif text-3xl text-ink">
-        {user?.name || user?.email || "管理員"}
-      </h1>
+      <h1 className="mt-1 font-serif text-3xl text-ink">{user?.name || user?.email || "管理員"}</h1>
 
       {denied && (
         <p className="mt-6 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-700">

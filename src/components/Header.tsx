@@ -52,7 +52,7 @@ export function Header({ dict, locale }: { dict: Dictionary; locale: Locale }) {
           "transition-all duration-500",
           scrolled || open
             ? "border-b border-line bg-base/85 backdrop-blur-xl"
-            : "border-b border-transparent bg-transparent"
+            : "border-b border-transparent bg-transparent",
         )}
       >
         <div className="shell flex h-[72px] items-center justify-between md:h-20">
@@ -65,7 +65,7 @@ export function Header({ dict, locale }: { dict: Dictionary; locale: Locale }) {
                 href={item.href}
                 className={cn(
                   "link-underline text-sm tracking-wide transition-colors",
-                  isActive(item.href) ? "text-gold" : "text-muted hover:text-ink"
+                  isActive(item.href) ? "text-gold" : "text-muted hover:text-ink",
                 )}
               >
                 {item.label}
@@ -100,9 +100,7 @@ export function Header({ dict, locale }: { dict: Dictionary; locale: Locale }) {
       <div
         className={cn(
           "fixed inset-0 top-[72px] z-40 origin-top bg-base/98 backdrop-blur-xl transition-all duration-300 lg:hidden",
-          open
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none opacity-0"
+          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         )}
       >
         <nav className="shell flex flex-col gap-1 pt-8">
@@ -112,7 +110,7 @@ export function Header({ dict, locale }: { dict: Dictionary; locale: Locale }) {
               href={item.href}
               className={cn(
                 "flex items-center justify-between border-b border-line py-5 font-serif text-2xl transition-colors",
-                isActive(item.href) ? "text-gold" : "text-ink hover:text-gold"
+                isActive(item.href) ? "text-gold" : "text-ink hover:text-gold",
               )}
               style={{ transitionDelay: `${i * 30}ms` }}
             >

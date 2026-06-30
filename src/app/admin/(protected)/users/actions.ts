@@ -25,8 +25,7 @@ export async function createUserAction(form: {
   try {
     const email = form.email.trim();
     if (!email) return { ok: false, error: "請輸入 Email" };
-    if (!form.password || form.password.length < 6)
-      return { ok: false, error: "密碼至少需 6 碼" };
+    if (!form.password || form.password.length < 6) return { ok: false, error: "密碼至少需 6 碼" };
     if (!isRole(form.role)) return { ok: false, error: "角色無效" };
 
     await createAdminUser({
@@ -56,10 +55,7 @@ export async function setRoleAction(uid: string, role: string): Promise<UserActi
   }
 }
 
-export async function setDisabledAction(
-  uid: string,
-  disabled: boolean
-): Promise<UserActionResult> {
+export async function setDisabledAction(uid: string, disabled: boolean): Promise<UserActionResult> {
   const me = await requireUser(["admin"]);
   try {
     if (uid === me.uid && disabled) return { ok: false, error: "不能停用自己的帳號" };

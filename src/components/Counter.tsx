@@ -50,7 +50,7 @@ export function Counter({
           observer.disconnect();
         }
       },
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
     observer.observe(node);
 

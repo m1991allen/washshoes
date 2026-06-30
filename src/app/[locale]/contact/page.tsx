@@ -23,11 +23,7 @@ export async function generateMetadata({
   return buildMetadata(isLocale(locale) ? locale : "zh", "contact");
 }
 
-export default async function ContactPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function ContactPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const safeLocale = isLocale(locale) ? locale : "zh";
   const dict = await getDictionary(safeLocale);
@@ -72,7 +68,10 @@ export default async function ContactPage({
                   <div>
                     <p className="text-xs uppercase tracking-[0.16em] text-faint">{label}</p>
                     {href ? (
-                      <a href={href} className="mt-1 block text-ink transition-colors hover:text-gold">
+                      <a
+                        href={href}
+                        className="mt-1 block text-ink transition-colors hover:text-gold"
+                      >
                         {value}
                       </a>
                     ) : (

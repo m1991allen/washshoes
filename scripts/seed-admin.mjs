@@ -17,9 +17,7 @@ import { getFirestore } from "firebase-admin/firestore";
 const [, , email, password, displayName = "管理員", role = "admin"] = process.argv;
 
 if (!email || !password) {
-  console.error(
-    "用法: npm run seed:admin -- <email> <password> [顯示名稱] [角色 admin|editor]"
-  );
+  console.error("用法: npm run seed:admin -- <email> <password> [顯示名稱] [角色 admin|editor]");
   process.exit(1);
 }
 if (!["admin", "editor"].includes(role)) {
@@ -33,7 +31,7 @@ const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
 if (!projectId || !clientEmail || !privateKey) {
   console.error(
-    "缺少 FIREBASE_* 環境變數。請先在 .env.local 填入服務帳戶金鑰（見 .env.example）。"
+    "缺少 FIREBASE_* 環境變數。請先在 .env.local 填入服務帳戶金鑰（見 .env.example）。",
   );
   process.exit(1);
 }
@@ -60,10 +58,10 @@ console.log(`• uid=${user.uid}`);
 
 // Firestore 寫入為非致命：就算資料庫還沒建立，帳號仍可正常建立/登入。
 try {
-  await db.collection("users").doc(user.uid).set(
-    { uid: user.uid, email, displayName, role, createdAt: Date.now() },
-    { merge: true }
-  );
+  await db
+    .collection("users")
+    .doc(user.uid)
+    .set({ uid: user.uid, email, displayName, role, createdAt: Date.now() }, { merge: true });
   console.log("• 已寫入 Firestore users 紀錄");
 } catch (e) {
   console.warn("• （可略過）Firestore 尚未就緒，略過 users 紀錄寫入：", e.message);

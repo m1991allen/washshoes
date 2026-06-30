@@ -16,11 +16,7 @@ export async function generateMetadata({
   return buildMetadata(isLocale(locale) ? locale : "zh", "cases");
 }
 
-export default async function CasesPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function CasesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const safeLocale = isLocale(locale) ? locale : "zh";
   const dict = await getDictionary(safeLocale);
@@ -50,9 +46,7 @@ export default async function CasesPage({
   const present = new Set(items.map((c) => c.category));
   const filters = [
     { id: "all", label: page.filterAll },
-    ...dict.services
-      .filter((s) => present.has(s.id))
-      .map((s) => ({ id: s.id, label: s.name })),
+    ...dict.services.filter((s) => present.has(s.id)).map((s) => ({ id: s.id, label: s.name })),
   ];
 
   return (

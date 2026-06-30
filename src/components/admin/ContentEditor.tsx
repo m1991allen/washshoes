@@ -54,7 +54,7 @@ export function ContentEditor({ pages }: { pages: ContentPageData[] }) {
               "whitespace-nowrap rounded-lg border px-4 py-2.5 text-left text-sm transition-colors",
               p.key === activeKey
                 ? "border-gold/40 bg-gold/10 text-gold"
-                : "border-line text-muted hover:border-line-strong hover:text-ink"
+                : "border-line text-muted hover:border-line-strong hover:text-ink",
             )}
           >
             <span className="block">{p.label}</span>

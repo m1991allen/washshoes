@@ -4,9 +4,7 @@ import { defaultLocale, locales } from "@/i18n/config";
 const PUBLIC_FILE = /\.(.*)$/;
 
 function hasLocalePrefix(pathname: string): boolean {
-  return locales.some(
-    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
-  );
+  return locales.some((locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`));
 }
 
 function detectLocale(request: NextRequest): string {

@@ -32,7 +32,7 @@ async function resizeImage(file: File, maxDim = 1600, quality = 0.82): Promise<B
   ctx.drawImage(img, 0, 0, width, height);
 
   const blob = await new Promise<Blob | null>((resolve) =>
-    canvas.toBlob(resolve, "image/jpeg", quality)
+    canvas.toBlob(resolve, "image/jpeg", quality),
   );
   if (!blob) throw new Error("圖片處理失敗");
   return blob;
@@ -78,14 +78,12 @@ export function ImageUpload({
   return (
     <div className={className}>
       {label && (
-        <span className="mb-1.5 block text-xs uppercase tracking-[0.12em] text-faint">
-          {label}
-        </span>
+        <span className="mb-1.5 block text-xs uppercase tracking-[0.12em] text-faint">{label}</span>
       )}
       <div
         className={cn(
           "group relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-lg border border-dashed border-line-strong bg-base",
-          !busy && "cursor-pointer hover:border-gold/60"
+          !busy && "cursor-pointer hover:border-gold/60",
         )}
         onClick={() => !busy && inputRef.current?.click()}
       >

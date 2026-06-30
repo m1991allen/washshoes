@@ -42,7 +42,7 @@ export function CasesGrid({
               "rounded-full border px-4 py-2 text-sm transition-colors",
               active === f.id
                 ? "border-gold bg-gold/10 text-gold"
-                : "border-line text-muted hover:border-line-strong hover:text-ink"
+                : "border-line text-muted hover:border-line-strong hover:text-ink",
             )}
           >
             {f.label}
