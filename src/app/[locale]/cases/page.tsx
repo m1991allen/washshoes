@@ -5,6 +5,7 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/PageHero";
 import { CasesGrid } from "@/components/CasesGrid";
 import { CTA } from "@/components/sections/CTA";
+import { getPublishedCases } from "@/lib/cms/cases-store";
 
 export async function generateMetadata({
   params,
@@ -25,8 +26,28 @@ export default async function CasesPage({
   const dict = await getDictionary(safeLocale);
   const page = dict.pages.cases;
 
+  // Prefer cases managed in the admin (Firestore); fall back to the static
+  // dictionary samples so the page is never empty before any are added.
+  const published = await getPublishedCases();
+  const usingRealCases = published.length > 0;
+  const items = usingRealCases
+    ? published.map((c) => ({
+        id: c.id,
+        category: c.category,
+        title: c.title[safeLocale] || c.title.zh || c.title.en || "",
+        desc: c.desc[safeLocale] || c.desc.zh || c.desc.en || "",
+        beforeImage: c.beforeImage,
+        afterImage: c.afterImage,
+      }))
+    : page.items.map((c) => ({
+        id: c.id,
+        category: c.category,
+        title: c.title,
+        desc: c.desc,
+      }));
+
   // Build filter tabs from the service categories actually present in the cases.
-  const present = new Set(page.items.map((c) => c.category));
+  const present = new Set(items.map((c) => c.category));
   const filters = [
     { id: "all", label: page.filterAll },
     ...dict.services
@@ -48,16 +69,18 @@ export default async function CasesPage({
       <section className="section">
         <div className="shell">
           <CasesGrid
-            items={page.items}
+            items={items}
             filters={filters}
             beforeLabel={page.before}
             afterLabel={page.after}
           />
-          <p className="mt-10 text-xs text-faint">
-            {safeLocale === "zh"
-              ? "＊ 拖曳滑桿比較前後差異。圖為示意，實際成果以委託物件為準。"
-              : "* Drag the slider to compare before & after. Images are illustrative placeholders."}
-          </p>
+          {!usingRealCases && (
+            <p className="mt-10 text-xs text-faint">
+              {safeLocale === "zh"
+                ? "＊ 拖曳滑桿比較前後差異。圖為示意，實際成果以委託物件為準。"
+                : "* Drag the slider to compare before & after. Images are illustrative placeholders."}
+            </p>
+          )}
         </div>
       </section>
 

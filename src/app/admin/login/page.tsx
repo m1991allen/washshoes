@@ -54,9 +54,11 @@ export default function AdminLoginPage() {
       }
       router.push("/admin");
       router.refresh();
+      // Keep the button in its loading state through the navigation. The admin
+      // dashboard is a server component that takes a moment to render; resetting
+      // `loading` here would flash the button back to "登入" and feel frozen.
     } catch (err) {
       setError(mapError(err));
-    } finally {
       setLoading(false);
     }
   }
@@ -111,13 +113,23 @@ export default function AdminLoginPage() {
           </div>
 
           {error && (
-            <p className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+            <p className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-600">
               {error}
             </p>
           )}
 
           <button type="submit" disabled={loading} className="btn btn-primary mt-6 w-full disabled:opacity-60">
-            {loading ? "登入中…" : "登入"}
+            {loading ? (
+              <>
+                <span
+                  className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+                  aria-hidden
+                />
+                登入中…
+              </>
+            ) : (
+              "登入"
+            )}
           </button>
         </form>
 

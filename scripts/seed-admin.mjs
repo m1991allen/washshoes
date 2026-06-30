@@ -55,18 +55,19 @@ try {
 }
 
 await auth.setCustomUserClaims(user.uid, { role });
-await db.collection("users").doc(user.uid).set(
-  {
-    uid: user.uid,
-    email,
-    displayName,
-    role,
-    createdAt: Date.now(),
-  },
-  { merge: true }
-);
-
 console.log(`• 已設定角色：role=${role}`);
 console.log(`• uid=${user.uid}`);
+
+// Firestore 寫入為非致命：就算資料庫還沒建立，帳號仍可正常建立/登入。
+try {
+  await db.collection("users").doc(user.uid).set(
+    { uid: user.uid, email, displayName, role, createdAt: Date.now() },
+    { merge: true }
+  );
+  console.log("• 已寫入 Firestore users 紀錄");
+} catch (e) {
+  console.warn("• （可略過）Firestore 尚未就緒，略過 users 紀錄寫入：", e.message);
+}
+
 console.log("\n✅ 完成！現在可用這組帳密登入 /admin/login");
 process.exit(0);
