@@ -8,7 +8,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "firebasestorage.googleapis.com" },
+      // Vercel Blob (case photos / uploads)
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
     ],
   },
 };

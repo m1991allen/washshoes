@@ -1,10 +1,14 @@
 import "server-only";
 import { randomUUID } from "crypto";
-import { adminStorage } from "@/lib/firebase/admin";
+import { put, del } from "@vercel/blob";
 
-const bucketName =
-  process.env.FIREBASE_STORAGE_BUCKET ??
-  process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
+/**
+ * Image storage backed by Vercel Blob (free tier, no Firebase Blaze required).
+ *
+ * Uploads run server-side from the upload route; reads are public URLs served
+ * from Vercel's CDN. Requires BLOB_READ_WRITE_TOKEN in the environment (auto-
+ * injected on Vercel once a Blob store is linked; set in .env.local for dev).
+ */
 
 function extFor(contentType: string): string {
   if (contentType === "image/png") return "png";
@@ -13,38 +17,26 @@ function extFor(contentType: string): string {
   return "jpg";
 }
 
-/**
- * Upload an image buffer to Cloud Storage and return a public, tokenless
- * download URL. Public read is granted by storage.rules; writes only happen
- * here, server-side, via the Admin SDK (which bypasses rules).
- *
- * Reused by case photos and (later) OG / hero images — vary `prefix`.
- */
 export async function uploadPublicImage(
   buffer: Buffer,
   contentType: string,
   prefix = "uploads"
 ): Promise<string> {
   const path = `${prefix}/${randomUUID()}.${extFor(contentType)}`;
-  const file = adminStorage().bucket(bucketName).file(path);
-  await file.save(buffer, {
+  const { url } = await put(path, buffer, {
+    access: "public",
     contentType,
-    resumable: false,
-    metadata: { cacheControl: "public, max-age=31536000, immutable" },
+    addRandomSuffix: false,
+    cacheControlMaxAge: 60 * 60 * 24 * 365,
   });
-  return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodeURIComponent(
-    path
-  )}?alt=media`;
+  return url;
 }
 
-/** Best-effort delete of an image previously returned by uploadPublicImage. */
+/** Best-effort delete of a previously uploaded image. */
 export async function deleteImageByUrl(url: string): Promise<void> {
   try {
-    const m = url.match(/\/o\/([^?]+)/);
-    if (!m) return;
-    const path = decodeURIComponent(m[1]);
-    await adminStorage().bucket(bucketName).file(path).delete({ ignoreNotFound: true });
+    await del(url);
   } catch {
-    // orphaned files are harmless; never fail a save/delete over cleanup
+    // orphaned blobs are harmless; never fail a save/delete over cleanup
   }
 }

@@ -6,6 +6,7 @@ import { uploadPublicImage } from "@/lib/cms/storage";
 export const runtime = "nodejs";
 
 const MAX_BYTES = 8 * 1024 * 1024; // 8MB hard cap (client resizes well below this)
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 /** POST multipart/form-data { file, prefix? } → { url }. Admin/editor only. */
 export async function POST(req: NextRequest) {
@@ -26,8 +27,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "找不到檔案" }, { status: 400 });
   }
   const contentType = file.type || "image/jpeg";
-  if (!contentType.startsWith("image/")) {
-    return NextResponse.json({ error: "僅接受圖片檔" }, { status: 415 });
+  if (!ALLOWED_TYPES.includes(contentType)) {
+    return NextResponse.json({ error: "僅接受 JPG / PNG / WebP 圖片" }, { status: 415 });
   }
   if (file.size > MAX_BYTES) {
     return NextResponse.json({ error: "檔案過大（上限 8MB）" }, { status: 413 });

@@ -56,7 +56,14 @@ export function BeforeAfter({
       {/* After (full) */}
       <Frame tone="gold" icon={afterImage ? undefined : icon} label={afterLabel} className="aspect-[4/3] w-full">
         {afterImage ? (
-          <Image src={afterImage} alt={afterLabel} fill sizes={sizes} className="object-cover" />
+          <Image
+            src={afterImage}
+            alt={afterLabel}
+            fill
+            sizes={sizes}
+            draggable={false}
+            className="pointer-events-none select-none object-cover"
+          />
         ) : undefined}
       </Frame>
 
@@ -64,7 +71,14 @@ export function BeforeAfter({
       <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
         <Frame tone="muted" icon={beforeImage ? undefined : icon} label={beforeLabel} className="aspect-[4/3] w-full">
           {beforeImage ? (
-            <Image src={beforeImage} alt={beforeLabel} fill sizes={sizes} className="object-cover" />
+            <Image
+              src={beforeImage}
+              alt={beforeLabel}
+              fill
+              sizes={sizes}
+              draggable={false}
+              className="pointer-events-none select-none object-cover"
+            />
           ) : undefined}
         </Frame>
       </div>

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import type { CaseDoc } from "@/lib/cms/types";
 import { cn } from "@/lib/utils";
 import { ImageUpload } from "./ImageUpload";
+import { validatePublish } from "@/lib/cms/case-validate";
 import { saveCaseAction, deleteCaseAction } from "@/app/admin/(protected)/cases/actions";
 
 type Category = { id: string; label: string };
@@ -89,6 +90,12 @@ function CaseCard({
   const labelCls = "mb-1 block text-xs uppercase tracking-[0.12em] text-faint";
 
   function save() {
+    const invalid = validatePublish(value);
+    if (invalid) {
+      setStatus("error");
+      setMsg(invalid);
+      return;
+    }
     setStatus("idle");
     startTransition(async () => {
       const res = await saveCaseAction(value);
