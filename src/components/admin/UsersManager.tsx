@@ -153,11 +153,11 @@ export function UsersManager({
       <div className="card overflow-x-auto">
         <table className="w-full min-w-[760px] table-fixed border-collapse text-left text-sm">
           <colgroup>
-            <col className="w-72" />
+            <col />
             <col className="w-44" />
             <col className="w-28" />
             <col className="w-36" />
-            <col />
+            <col className="w-40" />
           </colgroup>
           <thead>
             <tr className="border-b border-line text-xs uppercase tracking-[0.12em] text-faint">
