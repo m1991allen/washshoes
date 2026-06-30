@@ -106,9 +106,9 @@ export function UsersManager({
                 className="absolute inset-y-0 right-0 grid w-11 place-items-center text-faint transition-colors hover:text-gold"
               >
                 {showPassword ? (
-                  <EyeOffIcon width={18} height={18} />
-                ) : (
                   <EyeIcon width={18} height={18} />
+                ) : (
+                  <EyeOffIcon width={18} height={18} />
                 )}
               </button>
             </div>
