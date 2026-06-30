@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
+import { RouteProgress } from "@/components/ui/RouteProgress";
 
 export const metadata: Metadata = {
   title: "RENU 後台",
@@ -14,7 +15,10 @@ export default function AdminRootLayout({
 }) {
   return (
     <html lang="zh-Hant-TW" className="light">
-      <body className="bg-base text-ink antialiased">{children}</body>
+      <body className="admin-scope bg-base text-ink antialiased">
+        <RouteProgress />
+        {children}
+      </body>
     </html>
   );
 }

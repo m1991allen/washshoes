@@ -8,6 +8,7 @@ import { site } from "@/lib/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
+import { RouteProgress } from "@/components/ui/RouteProgress";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -113,6 +114,7 @@ export default async function LocaleLayout({
             __html: `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t='dark';}document.documentElement.classList.add(t);}catch(e){}})();`,
           }}
         />
+        <RouteProgress />
         <Header dict={dict} locale={locale} />
         <main id="main">{children}</main>
         <Footer dict={dict} locale={locale} />

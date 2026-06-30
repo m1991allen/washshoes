@@ -401,3 +401,71 @@ html.light .theme-icon--moon {
     animation: none;
   }
 }
+
+/* ============================================================
+   Skeleton placeholder (used by loading.tsx route fallbacks)
+   In @layer components so Tailwind's rounded-* utilities win.
+   ============================================================ */
+@layer components {
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--color-surface-2);
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-line-strong),
+      transparent
+    );
+    animation: skeleton-sweep 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes skeleton-sweep {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   Admin console — always dark, tuned for editing comfort.
+   The console never toggles light/dark, so it doesn't have to
+   track the marketing palette: we lift the low-contrast greys,
+   borders and (especially) placeholders to a readable level.
+   Rules are intentionally UNLAYERED so they beat Tailwind
+   utilities such as `text-faint` and `placeholder:text-faint/70`.
+   ============================================================ */
+.admin-scope {
+  --color-muted: #bcb6ab; /* was #9a958c — secondary text */
+  --color-faint: #918a7f; /* was #6b675f — labels, small print */
+  --color-line: rgba(255, 255, 255, 0.13); /* was 0.08 */
+  --color-line-strong: rgba(255, 255, 255, 0.22); /* was 0.16 */
+}
+
+/* Lift input fields off page-black so a field reads as a field,
+   and so typed text + placeholders have somewhere to sit. */
+.admin-scope input,
+.admin-scope textarea,
+.admin-scope select {
+  background-color: var(--color-surface-2);
+}
+
+/* Placeholders: clearly dimmer than typed text, but actually
+   legible. opacity:1 because Firefox fades placeholders by default. */
+.admin-scope ::placeholder {
+  color: #8f897e;
+  opacity: 1;
+}
