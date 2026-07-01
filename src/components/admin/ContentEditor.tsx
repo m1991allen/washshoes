@@ -3,8 +3,15 @@
 import { useState, useTransition } from "react";
 import type { Locale } from "@/i18n/config";
 import type { PageKey } from "@/lib/seo";
+import type { HomeHeroDoc } from "@/lib/cms/types";
 import { cn } from "@/lib/utils";
 import { saveContentAction } from "@/app/admin/(protected)/content/actions";
+import { HomeHeroEditor } from "./HomeHeroEditor";
+
+export interface HomeHeroData {
+  initial: HomeHeroDoc;
+  captionDefaults: { zh: string; en: string };
+}
 
 export interface ContentFieldData {
   key: string; // Firestore-safe field key
@@ -23,7 +30,13 @@ export interface ContentPageData {
 
 const LOCALE_LABELS: Record<Locale, string> = { zh: "中文", en: "English" };
 
-export function ContentEditor({ pages }: { pages: ContentPageData[] }) {
+export function ContentEditor({
+  pages,
+  homeHero,
+}: {
+  pages: ContentPageData[];
+  homeHero?: HomeHeroData;
+}) {
   const [activeKey, setActiveKey] = useState<PageKey>(pages[0]?.key ?? "home");
   // Editable override values keyed by `${page}:${locale}` → { fieldKey: value }.
   const [values, setValues] = useState<Record<string, Record<string, string>>>(() => {
@@ -63,24 +76,29 @@ export function ContentEditor({ pages }: { pages: ContentPageData[] }) {
         ))}
       </aside>
 
-      {/* Editors per locale */}
-      <div className="grid gap-5 md:grid-cols-2">
-        {locales.map((loc) => (
-          <LocaleCard
-            key={loc}
-            page={active.key}
-            locale={loc}
-            label={LOCALE_LABELS[loc]}
-            fields={active.locales[loc]}
-            values={values[`${active.key}:${loc}`]}
-            onChange={(key, val) =>
-              setValues((v) => ({
-                ...v,
-                [`${active.key}:${loc}`]: { ...v[`${active.key}:${loc}`], [key]: val },
-              }))
-            }
-          />
-        ))}
+      {/* Right column: shared hero settings (home only) above per-locale editors */}
+      <div className="space-y-6">
+        {active.key === "home" && homeHero && (
+          <HomeHeroEditor initial={homeHero.initial} captionDefaults={homeHero.captionDefaults} />
+        )}
+        <div className="grid gap-5 md:grid-cols-2">
+          {locales.map((loc) => (
+            <LocaleCard
+              key={loc}
+              page={active.key}
+              locale={loc}
+              label={LOCALE_LABELS[loc]}
+              fields={active.locales[loc]}
+              values={values[`${active.key}:${loc}`]}
+              onChange={(key, val) =>
+                setValues((v) => ({
+                  ...v,
+                  [`${active.key}:${loc}`]: { ...v[`${active.key}:${loc}`], [key]: val },
+                }))
+              }
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
