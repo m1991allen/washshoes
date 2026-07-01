@@ -1,6 +1,7 @@
 import { requireUser } from "@/lib/auth/session";
 import { loadStaticDictionary } from "@/i18n/getDictionary";
 import { getAllContentDocs } from "@/lib/cms/content-store";
+import { getHomeHero } from "@/lib/cms/home-hero-store";
 import { CONTENT_FIELDS, fieldKey, getByPath } from "@/lib/cms/content-fields";
 import { pagePaths, type PageKey } from "@/lib/seo";
 import { locales, type Locale } from "@/i18n/config";
@@ -22,6 +23,7 @@ export default async function ContentAdminPage() {
   await requireUser(["admin", "editor"]);
 
   const overrides = await getAllContentDocs();
+  const homeHero = await getHomeHero();
   const dicts = {} as Record<Locale, Dictionary>;
   for (const loc of locales as readonly Locale[]) {
     dicts[loc] = await loadStaticDictionary(loc);
@@ -50,7 +52,16 @@ export default async function ContentAdminPage() {
         顯示的內容）。儲存後前台頁面會自動更新。
       </p>
       <div className="mt-8">
-        <ContentEditor pages={pages} />
+        <ContentEditor
+          pages={pages}
+          homeHero={{
+            initial: homeHero,
+            captionDefaults: {
+              zh: dicts.zh.brand.tagline,
+              en: dicts.en.brand.tagline,
+            },
+          }}
+        />
       </div>
     </div>
   );

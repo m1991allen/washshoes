@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
+import { getHomeHero } from "@/lib/cms/home-hero-store";
 import { buildMetadata } from "@/lib/seo";
 import { Hero } from "@/components/sections/Hero";
 import { Intro } from "@/components/sections/Intro";
@@ -23,11 +24,11 @@ export async function generateMetadata({
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const safeLocale = isLocale(locale) ? locale : "zh";
-  const dict = await getDictionary(safeLocale);
+  const [dict, media] = await Promise.all([getDictionary(safeLocale), getHomeHero()]);
 
   return (
     <>
-      <Hero dict={dict} locale={safeLocale} />
+      <Hero dict={dict} locale={safeLocale} media={media} />
       <Intro dict={dict} locale={safeLocale} />
       <ServicesPreview dict={dict} locale={safeLocale} />
       <Process dict={dict} />

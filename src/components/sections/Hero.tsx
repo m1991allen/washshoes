@@ -1,13 +1,27 @@
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/zh";
+import type { HomeHeroDoc } from "@/lib/cms/types";
 import { localizedPath } from "@/lib/utils";
 import { Frame } from "@/components/Frame";
 import { Counter } from "@/components/Counter";
+import { HeroVisual } from "@/components/sections/HeroVisual";
 import { ShoeCleanIcon, BagCleanIcon, ArrowRight } from "@/components/icons";
 
-export function Hero({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+export function Hero({
+  dict,
+  locale,
+  media,
+}: {
+  dict: Dictionary;
+  locale: Locale;
+  media?: HomeHeroDoc;
+}) {
   const { hero } = dict;
+  const images = (media?.images ?? []).filter(Boolean);
+  const hasImages = images.length > 0;
+  // Custom caption falls back to the brand tagline of the current locale.
+  const caption = media?.caption?.[locale]?.trim() || dict.brand.tagline;
 
   return (
     <section className="bg-grain relative overflow-hidden pb-20 pt-32 md:pb-28 md:pt-40">
@@ -55,7 +69,15 @@ export function Hero({ dict, locale }: { dict: Dictionary; locale: Locale }) {
 
         {/* Visual */}
         <div className="relative">
-          <Frame tone="gold" icon={<ShoeCleanIcon />} className="aspect-[4/5] w-full" />
+          <Frame tone="gold" icon={<ShoeCleanIcon />} className="aspect-[4/5] w-full">
+            {hasImages ? (
+              <HeroVisual
+                images={images}
+                autoplay={media?.autoplay ?? true}
+                intervalMs={media?.intervalMs}
+              />
+            ) : null}
+          </Frame>
           {/* floating accent card */}
           <div className="absolute -bottom-6 -left-6 hidden w-48 rounded-2xl border border-line bg-base/80 p-4 backdrop-blur-md sm:block">
             <div className="flex items-center gap-3">
@@ -63,7 +85,9 @@ export function Hero({ dict, locale }: { dict: Dictionary; locale: Locale }) {
                 <BagCleanIcon width={20} height={20} />
               </span>
               <div>
-                <p className="font-serif text-sm text-ink">{dict.brand.tagline}</p>
+                <p className="whitespace-pre-wrap text-balance font-serif text-sm text-ink">
+                  {caption}
+                </p>
               </div>
             </div>
           </div>
