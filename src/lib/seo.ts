@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import { type Locale, defaultLocale, locales } from "@/i18n/config";
+import { getSeoDoc } from "@/lib/cms/seo-store";
 import { site } from "./site";
 
 /**
  * SEO source of truth.
  *
- * Phase 2 (admin panel) will replace `getSeoEntry` with a lookup against a
- * database/CMS so the client can edit titles, descriptions and OG images per
- * page and per language from the dashboard. Pages call `buildMetadata()` and
- * never need to know where the data came from — only this file changes.
+ * `seoConfig` below holds the static defaults. The admin panel can override any
+ * field per page/locale in Firestore; `buildMetadata()` merges those overrides
+ * on top of the defaults. Pages call `buildMetadata()` and never need to know
+ * where the data came from — only this file changes.
  */
 
 export type PageKey = "home" | "services" | "cases" | "about" | "faq" | "contact";
@@ -146,6 +148,27 @@ export function getSeoEntry(locale: Locale, page: PageKey): SeoEntry {
   return seoConfig[page][locale] ?? seoConfig[page][defaultLocale];
 }
 
+/**
+ * The SEO entry used by the public site: the static default with any Firestore
+ * override merged on top (blank fields fall back to the default). Cached per
+ * request; any failure falls back to the static default so pages never break.
+ */
+const getEffectiveSeoEntry = cache(async (locale: Locale, page: PageKey): Promise<SeoEntry> => {
+  const base = getSeoEntry(locale, page);
+  try {
+    const ov = (await getSeoDoc(page))?.[locale];
+    if (!ov) return base;
+    return {
+      title: ov.title ?? base.title,
+      description: ov.description ?? base.description,
+      keywords: ov.keywords ?? base.keywords,
+      ogImage: ov.ogImage ?? base.ogImage,
+    };
+  } catch {
+    return base;
+  }
+});
+
 const ogLocale: Record<Locale, string> = {
   zh: "zh_TW",
   en: "en_US",
@@ -157,10 +180,10 @@ const ogLocale: Record<Locale, string> = {
  *
  * The social share image is supplied by the `opengraph-image` file convention
  * (see app/[locale]/opengraph-image.tsx). If an SeoEntry sets `ogImage`, it
- * overrides that — handy for per-page art directed from the Phase 2 admin.
+ * overrides that — handy for per-page art directed from the admin panel.
  */
-export function buildMetadata(locale: Locale, page: PageKey): Metadata {
-  const entry = getSeoEntry(locale, page);
+export async function buildMetadata(locale: Locale, page: PageKey): Promise<Metadata> {
+  const entry = await getEffectiveSeoEntry(locale, page);
   const path = pagePaths[page];
   const canonical = `${site.url}/${locale}${path}`;
 
