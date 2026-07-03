@@ -141,6 +141,15 @@ function LocaleCard({
     });
   }
 
+  // Group consecutive fields by their `group` label so each section can be
+  // rendered as a clearly-separated block.
+  const groupedFields: { group?: string; items: ContentFieldData[] }[] = [];
+  for (const f of fields) {
+    const last = groupedFields[groupedFields.length - 1];
+    if (last && last.group === f.group) last.items.push(f);
+    else groupedFields.push({ group: f.group, items: [f] });
+  }
+
   return (
     <div className="card p-6">
       <div className="flex items-center justify-between">
@@ -148,36 +157,40 @@ function LocaleCard({
         <span className="text-[11px] text-faint">空白＝套用預設值</span>
       </div>
 
-      <div className="mt-5 space-y-4">
-        {fields.map((f, i) => {
-          const showGroup = f.group && f.group !== fields[i - 1]?.group;
-          return (
-            <div key={f.key}>
-              {showGroup && (
-                <p className="mb-2 mt-1 border-t border-line pt-3 text-xs font-medium tracking-wide text-gold first:mt-0 first:border-0 first:pt-0">
-                  {f.group}
-                </p>
-              )}
-              <label className={labelCls}>{f.label}</label>
-              {f.multiline ? (
-                <textarea
-                  rows={3}
-                  className={`${fieldCls} resize-none`}
-                  value={values[f.key] ?? ""}
-                  placeholder={f.default}
-                  onChange={(e) => onChange(f.key, e.target.value)}
-                />
-              ) : (
-                <input
-                  className={fieldCls}
-                  value={values[f.key] ?? ""}
-                  placeholder={f.default}
-                  onChange={(e) => onChange(f.key, e.target.value)}
-                />
-              )}
-            </div>
-          );
-        })}
+      <div className="mt-5 space-y-5">
+        {groupedFields.map((g, gi) => (
+          <div
+            key={g.group ?? `g${gi}`}
+            className={cn("space-y-4", g.group && "rounded-xl border border-line bg-base/40 p-4")}
+          >
+            {g.group && (
+              <h4 className="border-b border-line pb-2 text-sm font-semibold tracking-wide text-gold">
+                {g.group}
+              </h4>
+            )}
+            {g.items.map((f) => (
+              <div key={f.key}>
+                <label className={labelCls}>{f.label}</label>
+                {f.multiline ? (
+                  <textarea
+                    rows={3}
+                    className={`${fieldCls} resize-none`}
+                    value={values[f.key] ?? ""}
+                    placeholder={f.default}
+                    onChange={(e) => onChange(f.key, e.target.value)}
+                  />
+                ) : (
+                  <input
+                    className={fieldCls}
+                    value={values[f.key] ?? ""}
+                    placeholder={f.default}
+                    onChange={(e) => onChange(f.key, e.target.value)}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
 
       <div className="mt-5 flex items-center gap-3">
