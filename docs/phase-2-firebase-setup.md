@@ -78,10 +78,14 @@ users/{uid}           # 後台使用者顯示資料與角色（角色同時寫�
 ### 換 store 的注意事項
 
 Blob URL 的網域含 store id（`<storeId>.public.blob.vercel-storage.com`），
-**換 store 等於所有舊 URL 失效**。若必須更換，用一次性遷移腳本搬檔案並同步改寫 Firestore：
+**換 store 等於所有舊 URL 失效**。若必須更換，先把 `BLOB_READ_WRITE_TOKEN`
+換成新 store 的 token，再跑一次性遷移腳本 —— 它會找出 Firestore 內還指向舊 store
+的圖，抓下來寫進新 store，並同步改寫 URL：
 
 ```bash
-# BLOB_OLD_TOKEN / BLOB_NEW_TOKEN 先填進 .env.local
 node --env-file=.env.local scripts/migrate-blob-store.mjs           # 預演
 node --env-file=.env.local scripts/migrate-blob-store.mjs --apply   # 執行
 ```
+
+> 腳本只搬 Firestore 真正引用到的圖。沒被引用的孤兒檔（後台換圖時沒清掉的舊圖）
+> 不會搬過去，會隨舊 store 一起消失。
