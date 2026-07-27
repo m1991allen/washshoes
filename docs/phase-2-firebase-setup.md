@@ -4,7 +4,7 @@
 
 - **Firebase Authentication** — 後台登入，多人 + 權限角色（custom claims）
 - **Cloud Firestore** — SEO 設定與頁面內容
-- **Firebase Storage** — 案例圖片 / OG 圖
+- **Vercel Blob** — 案例圖片 / 首頁 hero 圖（見下方「圖片儲存」）
 
 ---
 
@@ -24,6 +24,8 @@
 - 第 5 步的 6 個公開值 → `NEXT_PUBLIC_FIREBASE_*`
 - 第 6 步 JSON 內的 `project_id` / `client_email` / `private_key` → `FIREBASE_*`
   - `FIREBASE_PRIVATE_KEY` 整段用雙引號包住、保留 `\n`
+
+- 圖片上傳用的 `BLOB_READ_WRITE_TOKEN` → 見第 5 節
 
 `.env.local` 已被 gitignore，**不會上傳**。正式環境（Vercel）另外在
 Settings → Environment Variables 加同樣的變數。
@@ -48,3 +50,42 @@ users/{uid}           # 後台使用者顯示資料與角色（角色同時寫�
 ```
 
 > 字典檔（`src/i18n/dictionaries`）仍是**預設值**；Firestore 有資料時覆寫，沒有時 fallback。
+
+## 5. 圖片儲存（Vercel Blob）
+
+圖片**不放 Firebase Storage**，改用 Vercel Blob（免費額度內、不需開 Blaze 方案）。
+
+### store 設定
+
+| 項目 | 值 | 備註 |
+| --- | --- | --- |
+| 名稱 | `washshoes-blob` | |
+| 存取模式 | **Public** | **建立後不可修改**。前台要能直接用 URL 讀圖，一定要 public |
+| 環境 | All Environments | |
+| 環境變數 | `BLOB_READ_WRITE_TOKEN` | 連到專案後 Vercel 自動注入；本機需手動填 `.env.local` |
+
+> 一個專案只接**一個** Blob store —— 接第二個時 `BLOB_READ_WRITE_TOKEN` 會撞名。
+
+### 上傳流程
+
+1. 瀏覽器先壓縮（最長邊 1600px、JPEG q=0.82）— `src/lib/image/client-upload.ts`
+2. POST 到 `/api/admin/upload`（admin/editor 才可，限 JPG/PNG/WebP、8MB）
+3. 伺服器以 `put()` 寫入 Blob，路徑 `<prefix>/<uuid>.<ext>`，快取 1 年 — `src/lib/cms/storage.ts`
+4. 回傳公開 CDN URL，存進 Firestore
+
+`next.config.mjs` 的 `images.remotePatterns` 已允許 `*.public.blob.vercel-storage.com`。
+
+### 換 store 的注意事項
+
+Blob URL 的網域含 store id（`<storeId>.public.blob.vercel-storage.com`），
+**換 store 等於所有舊 URL 失效**。若必須更換，先把 `BLOB_READ_WRITE_TOKEN`
+換成新 store 的 token，再跑一次性遷移腳本 —— 它會找出 Firestore 內還指向舊 store
+的圖，抓下來寫進新 store，並同步改寫 URL：
+
+```bash
+node --env-file=.env.local scripts/migrate-blob-store.mjs           # 預演
+node --env-file=.env.local scripts/migrate-blob-store.mjs --apply   # 執行
+```
+
+> 腳本只搬 Firestore 真正引用到的圖。沒被引用的孤兒檔（後台換圖時沒清掉的舊圖）
+> 不會搬過去，會隨舊 store 一起消失。
