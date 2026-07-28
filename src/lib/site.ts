@@ -9,8 +9,11 @@
 export const site = {
   name: "RENU",
   fullName: "RENU 鞋包精緻護理",
-  // Update to the real production domain before launch.
-  url: "https://www.renu-care.com.tw",
+  // Canonical origin for sitemap/robots/metadata. Set NEXT_PUBLIC_SITE_URL per
+  // environment (Vercel + .env.local). The fallback is the Vercel domain — the
+  // client's own domain isn't registered yet, and pointing canonicals at a
+  // domain that doesn't resolve is worse than not setting them at all.
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://washshoes.vercel.app",
   email: "service@renu-care.com.tw",
   phone: "+886-3-000-0000",
   phoneDisplay: "03-000-0000",
