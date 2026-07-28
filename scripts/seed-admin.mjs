@@ -1,9 +1,8 @@
 /**
  * 建立 / 更新第一位後台管理員。
  *
- * 前置：先在 .env.local 填好 FIREBASE_PROJECT_ID / FIREBASE_CLIENT_EMAIL /
- *       FIREBASE_PRIVATE_KEY（服務帳戶金鑰），並在 Firebase Authentication
- *       啟用「電子郵件/密碼」。
+ * 前置：先在 .env.local 填好 FIREBASE_SERVICE_ACCOUNT_KEY（服務帳戶金鑰），
+ *       並在 Firebase Authentication 啟用「電子郵件/密碼」。
  *
  * 用法：
  *   npm run seed:admin -- <email> <password> [顯示名稱] [角色 admin|editor]
@@ -13,6 +12,7 @@
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
+import { serviceAccount } from "./service-account.mjs";
 
 const [, , email, password, displayName = "管理員", role = "admin"] = process.argv;
 
@@ -25,19 +25,8 @@ if (!["admin", "editor"].includes(role)) {
   process.exit(1);
 }
 
-const projectId = process.env.FIREBASE_PROJECT_ID;
-const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
-
-if (!projectId || !clientEmail || !privateKey) {
-  console.error(
-    "缺少 FIREBASE_* 環境變數。請先在 .env.local 填入服務帳戶金鑰（見 .env.example）。",
-  );
-  process.exit(1);
-}
-
 if (!getApps().length) {
-  initializeApp({ credential: cert({ projectId, clientEmail, privateKey }) });
+  initializeApp({ credential: cert(serviceAccount()) });
 }
 const auth = getAuth();
 const db = getFirestore();

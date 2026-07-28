@@ -4,20 +4,14 @@
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
+import { serviceAccount } from "./service-account.mjs";
 
 const email = process.argv[2] || "allen.liu.05044@gmail.com";
-const projectId = process.env.FIREBASE_PROJECT_ID;
-const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+const { projectId, clientEmail, privateKey } = serviceAccount();
 
 console.log("projectId    :", projectId);
 console.log("clientEmail  :", clientEmail);
 console.log("privateKey   :", privateKey ? `present (${privateKey.slice(0, 27)}…)` : "MISSING");
-
-if (!projectId || !clientEmail || !privateKey) {
-  console.error("\n✗ 缺少 FIREBASE_* 環境變數");
-  process.exit(1);
-}
 
 try {
   if (!getApps().length)
