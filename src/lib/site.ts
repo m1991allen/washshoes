@@ -9,8 +9,9 @@
 export const site = {
   name: "RENU",
   fullName: "RENU 鞋包精緻護理",
-  // Update to the real production domain before launch.
-  url: "https://www.renu-care.com.tw",
+  // Canonical origin for sitemap/robots/metadata. Set NEXT_PUBLIC_SITE_URL per
+  // environment (Vercel + .env.local); the literal below is the launch fallback.
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.renu-care.com.tw",
   email: "service@renu-care.com.tw",
   phone: "+886-3-000-0000",
   phoneDisplay: "03-000-0000",
