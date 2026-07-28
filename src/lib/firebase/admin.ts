@@ -17,25 +17,25 @@ const storageBucket =
   process.env.FIREBASE_STORAGE_BUCKET ?? process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
 
 function getServiceAccount() {
-  const projectId = process.env.FIREBASE_PROJECT_ID;
-  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-  // Env files store the key with literal "\n"; convert back to real newlines.
-  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
-
-  if (!projectId || !clientEmail || !privateKey) {
+  const raw = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+  if (!raw) {
+    throw new Error("Missing FIREBASE_SERVICE_ACCOUNT_KEY. See .env.example.");
+  }
+  // Accepts the service-account JSON verbatim or base64-encoded. JSON.parse
+  // turns the key's escaped "\n" back into real newlines for us.
+  try {
+    const json = raw.trim().startsWith("{") ? raw : Buffer.from(raw, "base64").toString("utf8");
+    const { project_id, client_email, private_key } = JSON.parse(json);
+    return { projectId: project_id, clientEmail: client_email, privateKey: private_key };
+  } catch {
     throw new Error(
-      "Missing Firebase Admin env vars (FIREBASE_PROJECT_ID / FIREBASE_CLIENT_EMAIL / FIREBASE_PRIVATE_KEY). See .env.example.",
+      "FIREBASE_SERVICE_ACCOUNT_KEY is not valid service-account JSON (or base64 of it).",
     );
   }
-  return { projectId, clientEmail, privateKey };
 }
 
 export function isAdminConfigured(): boolean {
-  return Boolean(
-    process.env.FIREBASE_PROJECT_ID &&
-    process.env.FIREBASE_CLIENT_EMAIL &&
-    process.env.FIREBASE_PRIVATE_KEY,
-  );
+  return Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
 }
 
 export function getAdminApp(): App {

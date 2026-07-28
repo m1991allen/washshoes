@@ -13,6 +13,7 @@
 import { put } from "@vercel/blob";
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
+import { serviceAccount } from "./service-account.mjs";
 
 const apply = process.argv.includes("--apply");
 const token = process.env.BLOB_READ_WRITE_TOKEN;
@@ -27,15 +28,8 @@ console.log(`模式：${apply ? "實際執行" : "預演（不寫入）"}`);
 console.log(`目前 store：${currentHost}\n`);
 
 // ---- 1. 連上 Firestore，找出所有指向「別的 store」的圖片 URL ----------------
-const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 if (!getApps().length) {
-  initializeApp({
-    credential: cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey,
-    }),
-  });
+  initializeApp({ credential: cert(serviceAccount()) });
 }
 const db = getFirestore();
 

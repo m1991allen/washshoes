@@ -22,8 +22,10 @@
 把專案根目錄的 `.env.example` 複製成 `.env.local`，填入：
 
 - 第 5 步的 6 個公開值 → `NEXT_PUBLIC_FIREBASE_*`
-- 第 6 步 JSON 內的 `project_id` / `client_email` / `private_key` → `FIREBASE_*`
-  - `FIREBASE_PRIVATE_KEY` 整段用雙引號包住、保留 `\n`
+- 第 6 步下載的整包 JSON → `FIREBASE_SERVICE_ACCOUNT_KEY`
+  - 建議轉成 base64 再貼，省掉換行與引號的麻煩：
+    `base64 -w0 serviceAccount.json`（Windows 用 `certutil -encode`）
+  - 直接貼 JSON 也可以，但要壓成一行並用單引號包住
 
 - 圖片上傳用的 `BLOB_READ_WRITE_TOKEN` → 見第 5 節
 
