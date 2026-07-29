@@ -11,10 +11,6 @@ import "server-only";
 import { getApps, getApp, initializeApp, cert, type App } from "firebase-admin/app";
 import { getAuth, type Auth } from "firebase-admin/auth";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
-import { getStorage, type Storage } from "firebase-admin/storage";
-
-const storageBucket =
-  process.env.FIREBASE_STORAGE_BUCKET ?? process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
 
 function getServiceAccount() {
   const raw = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
@@ -40,10 +36,7 @@ export function isAdminConfigured(): boolean {
 
 export function getAdminApp(): App {
   if (getApps().length) return getApp();
-  return initializeApp({
-    credential: cert(getServiceAccount()),
-    storageBucket,
-  });
+  return initializeApp({ credential: cert(getServiceAccount()) });
 }
 
 export function adminAuth(): Auth {
@@ -52,8 +45,4 @@ export function adminAuth(): Auth {
 
 export function adminDb(): Firestore {
   return getFirestore(getAdminApp());
-}
-
-export function adminStorage(): Storage {
-  return getStorage(getAdminApp());
 }
