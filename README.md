@@ -109,3 +109,10 @@ src/
 1. **第一階段（本專案）** — 雙語形象網站 + SEO 基礎建設 ✅
 2. **第二階段** — 後台登入 + SEO 後台管理（接上 `seo.ts` / `site.ts` 的資料來源）
 3. **第三階段** — 待定
+
+## TODO：
+1.正式網域下來時，只要改 NEXT_PUBLIC_SITE_URL 一個值（Vercel 一筆 + 本機 .env.local），重新部署就好，不用動程式碼。
+
+2.另外 Vercel CLI 我裝成全域了（npm i -g vercel，v58）—— 你之前的登入憑證還在，所以沒有另外要你登入。不需要的話 npm rm -g vercel 可以移掉。
+
+
