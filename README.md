@@ -110,9 +110,12 @@ src/
 2. **第二階段** — 後台登入 + SEO 後台管理（接上 `seo.ts` / `site.ts` 的資料來源）
 3. **第三階段** — 待定
 
-## TODO：
-1.正式網域下來時，只要改 NEXT_PUBLIC_SITE_URL 一個值（Vercel 一筆 + 本機 .env.local），重新部署就好，不用動程式碼。
+## TODO
 
-2.另外 Vercel CLI 我裝成全域了（npm i -g vercel，v58）—— 你之前的登入憑證還在，所以沒有另外要你登入。不需要的話 npm rm -g vercel 可以移掉。
+- **接上正式網域** — 業主的網域申請下來後，改 `NEXT_PUBLIC_SITE_URL` 一個值即可
+  （Vercel 一筆 + 本機 `.env.local`），重新部署就會套用到 sitemap、robots、
+  canonical 與 Open Graph，不用動程式碼。
+- **Firebase Storage 主控台清理** — 圖片已全部改用 Vercel Blob，此 repo 也不再
+  管理 `storage.rules`。主控台上的 bucket 與舊圖仍在但無人引用，可考慮停用。
 
 
